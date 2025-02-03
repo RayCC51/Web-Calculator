@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Calculator</title>
+
+  <!-- HTML -->
+
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="clac">
+    <p id="result" class="result">
+      Error??!!
+      <div id="result-raw" hidden>raw expression</div>
+    </p>
+  </div>
+  <table class="calc">
+    <tr>
+      <td><button type="button" id="num-one" class="btn num">
+          1
+        </button>
+        <td />
+      <td><button type="button" id="num-two" class="btn num">
+          2
+        </button>
+        <td />
+      <td><button type="button" id="num-three" class="btn num">
+          3
+        </button>
+        <td />
+      <td><button type="button" id="op-plus" class="btn op">
+          +
+        </button></td>
+      <td><button type="button" id="op-power" class="btn op">
+          ^
+        </button></td>
+    </tr>
+    <tr>
+      <td><button type="button" id="num-four" class="btn num">
+          4
+        </button>
+        <td />
+      <td><button type="button" id="num-five" class="btn num">
+          5
+        </button>
+        <td />
+      <td><button type="button" id="num-six" class="btn num">
+          6
+        </button>
+        <td />
+      <td><button type="button" id="op-minus" class="btn op">
+          -
+        </button></td>
+      <td><button type="button" id="op-mod" class="btn op">
+          %
+        </button></td>
+    </tr>
+    <tr>
+      <td><button type="button" id="num-seven" class="btn num">
+          7
+        </button>
+        <td />
+      <td><button type="button" id="num-eight" class="btn num">
+          8
+        </button>
+        <td />
+      <td><button type="button" id="num-nine" class="btn num">
+          9
+        </button>
+        <td />
+      <td><button type="button" id="op-multiple" class="btn op">
+          *
+        </button></td>
+        <td rowspan="2"><button type="button" id="op-equal" class="btn op big-btn">
+          =
+        </button></td>
+    </tr>
+    <tr>
+      <td><button type="button" id="num-thousand" class="btn num">
+          000
+        </button>
+        <td />
+      <td><button type="button" id="num-zero" class="btn num">
+          0
+        </button>
+        <td />
+      <td><button type="button" id="dot" class="btn dot">
+          .
+        </button>
+        <td />
+      <td><button type="button" id="op-divide" class="btn op">
+          /
+        </button></td>
+    </tr>
+  </table>
+  <script src="main.js"></script>
+</body>
+
+</html>
