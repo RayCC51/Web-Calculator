@@ -2,7 +2,7 @@
 
 Working on
 - Android 10
-- spck editor 
+- spck editor app
 
 Start at 2025-02-03
 
