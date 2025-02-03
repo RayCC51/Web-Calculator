@@ -1,0 +1,17 @@
+:root{
+  --btn-size: 60px;
+}
+
+body {
+    font-size: 15pt;
+}
+
+.btn{
+  width: var(--btn-size);
+  height: var(--btn-size);
+  text-align: center;
+}
+
+.big-btn{
+  height: calc(var(--btn-size) * 2);
+}
