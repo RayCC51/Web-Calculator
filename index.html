@@ -17,25 +17,46 @@
 
 <body>
   <div class="clac">
+    <button type="button" id="cursor -left" class="btn cursor"/>
     <p id="result" class="result">
       Error??!!
-      <div id="result-raw" hidden>raw expression</div>
     </p>
+    <button type="button" id="cursor-right"class="btn cursor"/>
   </div>
   <table class="calc">
+    <tr>
+      <td><button type="button" id="op-parentheses" class="btn op">
+          ( )
+        </button>
+        </td>
+      <td><button type="button" id="op-log" class="btn op">
+          log
+        </button>
+        </td>
+      <td><button type="button" id="num-pi" class="btn num">
+          pi
+        </button>
+        </td>
+      <td><button type="button" id="num-e" class="btn num">
+          e
+        </button></td>
+      <td><button type="button" id="cursor-backspace" class="btn cursor">
+          <-
+        </button></td>
+    </tr>
     <tr>
       <td><button type="button" id="num-one" class="btn num">
           1
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-two" class="btn num">
           2
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-three" class="btn num">
           3
         </button>
-        <td />
+        </td>
       <td><button type="button" id="op-plus" class="btn op">
           +
         </button></td>
@@ -47,15 +68,15 @@
       <td><button type="button" id="num-four" class="btn num">
           4
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-five" class="btn num">
           5
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-six" class="btn num">
           6
         </button>
-        <td />
+        </td>
       <td><button type="button" id="op-minus" class="btn op">
           -
         </button></td>
@@ -67,19 +88,19 @@
       <td><button type="button" id="num-seven" class="btn num">
           7
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-eight" class="btn num">
           8
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-nine" class="btn num">
           9
         </button>
-        <td />
+        </td>
       <td><button type="button" id="op-multiple" class="btn op">
           *
         </button></td>
-        <td rowspan="2"><button type="button" id="op-equal" class="btn op big-btn">
+      <td rowspan="2"><button type="button" id="op-equal" class="btn op big-btn">
           =
         </button></td>
     </tr>
@@ -87,15 +108,15 @@
       <td><button type="button" id="num-thousand" class="btn num">
           000
         </button>
-        <td />
+        </td>
       <td><button type="button" id="num-zero" class="btn num">
           0
         </button>
-        <td />
-      <td><button type="button" id="dot" class="btn dot">
+        </td>
+      <td><button type="button" id="num-dot" class="btn dot">
           .
         </button>
-        <td />
+        </td>
       <td><button type="button" id="op-divide" class="btn op">
           /
         </button></td>

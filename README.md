@@ -7,24 +7,24 @@ Working on
 Start at 2025-02-03
 
 ### Step
-- UI <<<
+- UI
+- numbers <<<
 - +-*/
 - =
-- ac backspace
+- backspace - long press: ac
 - better UI
 - ^%
 - ()
-- √
 - pi e
-- history
 - log
+- history
 - ...?
 
 ### UI
 ||||||
 |:-:|:-:|:-:|:-:|:-:|
-||√|log|pi|e|
-|AC|()|||<-|
+|<|result|>|
+|()|log|pi|e|<-|
 |1|2|3|+|^|
 |4|5|6|-|%|
 |7|8|9|*|=|
