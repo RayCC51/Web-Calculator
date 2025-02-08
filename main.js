@@ -1,27 +1,45 @@
+/* symbol["..."][1]: is it valid new key append after last key, else replace last key
+Digit code: 
+  symbol: 
+    previous key can be : hidden multiply
+  _: can starts with
+0: 1: 1 . + - log ( _ : pi )
+1: pi: + - log ( _ : 1 pi )
+2: .: 1 _ :
+3: +: 1 pi ) :
+4: -: 1 pi log ( ) _ :
+5: log: + - log ( _ : 1 pi )
+6: (: + - log ( _ : 1 pi )
+7: ): 1 pi ( ) : 
+8: combination
+9: equal
+*/
 const symbol = {
-  "num-one": ["1", ],
-  "num-two": ["2", ],
-  "num-three": ["3", ],
-  "num-four": ["4", ],
-  "num-five": ["5", ],
-  "num-six": ["6", ],
-  "num-seven": ["7", ],
-  "num-eight": ["8", ],
-  "num-nine": ["9", ],
-  "num-zero": ["0", ],
-  "num-thousand": ["000", ],
-  "num-dot": [".", ],
-  "num-pi": ["π", ],
-  "num-e": ["e", ],
-  "op-parentheses": ["()", ],
-  "op-log": ["log", ],
-  "op-plus": ["+", ],
-  "op-minus": ["-", ],
-  "op-multiple": ["*", ],
-  "op-divide": ["/", ],
-  "op-power": ["^", ],
-  "op-mod": ["%", ],
-  "equal": ["=", ],
+  "num-one": ["1", 0],
+  "num-two": ["2", 0],
+  "num-three": ["3", 0],
+  "num-four": ["4", 0],
+  "num-five": ["5", 0],
+  "num-six": ["6", 0],
+  "num-seven": ["7", 0],
+  "num-eight": ["8", 0],
+  "num-nine": ["9", 0],
+  "num-zero": ["0", 0],
+  "num-thousand": ["000", 8],
+  "num-dot": [".", 2],
+  "num-pi": ["π", 1],
+  "num-e": ["e", 1],
+  "op-parentheses": ["()", 8],
+  "op-open": ["(", 6],
+  "op-close": [")", 7],
+  "op-log": ["log", 5],
+  "op-plus": ["+", 3],
+  "op-minus": ["-", 4],
+  "op-multiple": ["*", 3],
+  "op-divide": ["/", 3],
+  "op-power": ["^", 3],
+  "op-mod": ["%", 3],
+  "equal": ["=", 9],
 };
 // thousand -> zero zero zero
 // parentheses -> open close
@@ -33,8 +51,12 @@ let resultArr = [];
 // change result value
 const changeResultValue = (item) => {
   let newKey = item.id;
+  // if(resultArr.length > 0){
+  //   isNewKeyValid(newKey);
+  // }
   if (true) {
     resultArr.push(newKey);
+    //console.log(symbol[newKey][0]);
   } else{
     resultArr.pop();
     resultArr.push(newKey);
@@ -43,10 +65,21 @@ const changeResultValue = (item) => {
 };
 
 // true will append new key, false will replace last key
-const isNewKeyValid = (key) => {
+const isNewKeyValid = (newKey) => {
+  let checkSum = symbol[resultArr[resultArr.length-1]][1] * 10 + symbol[newKey][1];
+  // console.log(checkSum);
+  // console.log(resultArr[resultArr.length-1]);
+  
+  // TODO: switch to filter valid, unvalid, hidden multiply. 
 }
 
-// set result list to string
+// 000, log, () -> 0-0-0, log(-), (-)
+// . -> 0.
+const isCombination = (key) => {
+  
+}
+
+// set result array on html
 const setResultValue = () => {
   resultBox.textContent = resultArr.join('');
 }
