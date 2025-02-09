@@ -33,6 +33,7 @@ const symbol = {
   "op-open": ["(", 6],
   "op-close": [")", 7],
   "op-log": ["log", 5],
+  "op-ln": ["ln", 5],
   "op-plus": ["+", 3],
   "op-minus": ["-", 4],
   "op-multiple": ["*", 3],
@@ -141,6 +142,7 @@ const popLastElement = () => {
 };
 
 const cursorHandler = (item) => {
+  // backspace
   if (item.id == "cursor-backspace") {
     let intervalId;
     let delay = 400;
@@ -176,8 +178,17 @@ const cursorHandler = (item) => {
     item.ontouchcancel = stopPoppingInterval;
 
   }
+  // ac
+  else if (item.id == "cursor-ac"){
+    item.onclick = () => {
+      //console.log("all clear");
+      resultArr = [];
+      setResultValue();
+    };
+  }
+  // move cursor
   else {
-    // move cursor
+    // TODO
   }
 };
 
