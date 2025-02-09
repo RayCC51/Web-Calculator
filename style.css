@@ -15,3 +15,9 @@ body {
 .big-btn{
   height: calc(var(--btn-size) * 2);
 }
+
+td.half{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
