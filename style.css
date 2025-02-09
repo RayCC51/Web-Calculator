@@ -19,5 +19,4 @@ body {
 td.half{
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
