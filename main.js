@@ -12,7 +12,7 @@ Digit code:
 6: (: + - log ( _ : 1 pi )
 7: ): 1 pi ( ) : 
 8: combination
-9: equal
+9: equal, empty
 */
 const symbol = {
   "num-one": ["1", 0],
@@ -64,24 +64,38 @@ const changeResultValue = (item) => {
   setResultValue();
 };
 
+// TODO: fill in these list
+const validList = [];
+const hiddenMultiply = [];
+
 // true will append new key, false will replace last key
 const isNewKeyValid = (newKey) => {
   let checkSum = symbol[resultArr[resultArr.length-1]][1] * 10 + symbol[newKey][1];
   // console.log(checkSum);
   // console.log(resultArr[resultArr.length-1]);
   
-  // TODO: switch to filter valid, unvalid, hidden multiply. 
+  if (checkSum in validList){
+    return true;
+  }
+  else if (checkSum in hiddenMultiply){
+    parsingCombination(newKey);
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
 // 000, log, () -> 0-0-0, log(-), (-)
 // . -> 0.
-const isCombination = (key) => {
-  
+// hidden multiply
+const parsingCombination = (key) => {
+  // TODO
 }
 
 // set result array on html
 const setResultValue = () => {
-  resultBox.textContent = resultArr.join('');
+  resultBox.textContent = resultArr.join(' '); // DEBUG
 }
 
 

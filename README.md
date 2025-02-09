@@ -31,3 +31,7 @@ Start at 2025-02-03
 |000|0|.|/|=|
 
 - darkmode
+
+### Sample resource
+
+calculator.png: [flaticon](https://www.flaticon.com/free-icon/calculator_2374370)
