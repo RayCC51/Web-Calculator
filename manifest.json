@@ -9,7 +9,7 @@
     {
       "src": "calculator-512.png",
       "sizes": "512x512",
-      "type": "image/png
+      "type": "image/png"
     }
   ],
   "description": "PWA web app calculator",
