@@ -13,6 +13,6 @@
     }
   ],
   "description": "PWA web app calculator",
-  "display": "minimal-ui",
+  "display": "standalone",
   "orientation": "portrait"
 }
