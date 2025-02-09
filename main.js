@@ -55,37 +55,37 @@ const changeResultValue = (item) => {
   // if(resultArr.length > 0){
   //   isNewKeyValid(newKey);
   // }
-  
+
   // parsing combination: 000, ()
-  if(symbol[newKey][1] == 8){
+  if (symbol[newKey][1] == 8) {
     //console.log(newKey);
-    if (newKey == "num-thousand"){
+    if (newKey == "num-thousand") {
       newKey = "num-zero";
       combinationOrigin = "num-thousand";
     }
-    else if (newKey == "op-parentheses"){
+    else if (newKey == "op-parentheses") {
       newKey = "op-open";
       combinationOrigin = "op-parentheses";
     }
   }
-  
+
   if (true) { // isNewKeyValid
     resultArr.push(newKey);
     //console.log(symbol[newKey][0]);
-  } else{
+  } else {
     resultArr.pop();
     resultArr.push(newKey);
   }
-  if (combinationOrigin){
-    if(combinationOrigin == "num-thousand"){
+  if (combinationOrigin) {
+    if (combinationOrigin == "num-thousand") {
       resultArr.push("num-zero");
       resultArr.push("num-zero");
     }
-    else if (combinationOrigin == "op-parentheses"){
+    else if (combinationOrigin == "op-parentheses") {
       resultArr.push("op-close");
     }
   }
-  
+
   setResultValue();
 };
 
@@ -95,18 +95,18 @@ const hiddenMultiply = [];
 
 // true will append new key, false will replace last key
 const isNewKeyValid = (newKey) => {
-  let checkSum = symbol[resultArr[resultArr.length-1]][1] * 10 + symbol[newKey][1];
+  let checkSum = symbol[resultArr[resultArr.length - 1]][1] * 10 + symbol[newKey][1];
   // console.log(checkSum);
   // console.log(resultArr[resultArr.length-1]);
-  
-  if (checkSum in validList){
+
+  if (checkSum in validList) {
     return true;
   }
-  else if (checkSum in hiddenMultiply){
+  else if (checkSum in hiddenMultiply) {
     parsingCombination(newKey);
     return true;
   }
-  else{
+  else {
     return false;
   }
 }
@@ -119,18 +119,67 @@ const parsingCombination = (key) => {
 
 // hidden multiply
 const parsingHiddenMultiply = (key) => {
-  
+
 }
 
 // set result array on html
 const setResultValue = () => {
   let temp = [];
-  for (let item of resultArr){
+  for (let item of resultArr) {
     //console.log(item);
     temp.push(symbol[item][0]);
   }
   resultBox.textContent = temp.join('');
 }
+
+// backspace
+const popLastElement = () => {
+  if (resultArr.length) {
+    resultArr.pop();
+    setResultValue();
+  }
+};
+
+const cursorHandler = (item) => {
+  if (item.id == "cursor-backspace") {
+    let intervalId;
+    let delay = 400;
+
+    item.onclick = () => {
+      popLastElement();
+    };
+
+    const startPoppingInterval = () => {
+      intervalId = setInterval(() => {
+        popLastElement();
+        if (delay > 20) {
+          // delay -= 50; 
+          delay = Math.max(delay / 2, 20);
+          clearInterval(intervalId);
+          intervalId = setInterval(() => {
+            popLastElement();
+          }, delay);
+        }
+      }, delay);
+    };
+
+    const stopPoppingInterval = () => {
+      clearInterval(intervalId);
+      delay = 300;
+    };
+
+    item.onmousedown = startPoppingInterval;
+    item.ontouchstart = startPoppingInterval;
+    item.onmouseup = stopPoppingInterval;
+    item.ontouchend = stopPoppingInterval;
+    item.onmouseleave = stopPoppingInterval;
+    item.ontouchcancel = stopPoppingInterval;
+
+  }
+  else {
+    // move cursor
+  }
+};
 
 
 // on button click
@@ -138,12 +187,7 @@ const allBtn = document.querySelectorAll(".btn");
 
 allBtn.forEach(item => {
   if (item.classList.contains("cursor")) {
-    item.onclick = () => {
-      if(resultArr.length){
-        resultArr.pop();
-        setResultValue();
-      };
-    };
+    cursorHandler(item);
   }
   else {
     item.onclick = () => changeResultValue(item);
@@ -156,27 +200,27 @@ allBtn.forEach(item => {
 let touchTimer;
 
 resultBox.addEventListener('touchstart', (event) => {
-    touchTimer = setTimeout(() => {
-        copyText(resultBox);
-    }, 350);
+  touchTimer = setTimeout(() => {
+    copyText(resultBox);
+  }, 350);
 });
 
 resultBox.addEventListener('touchend', () => {
-    clearTimeout(touchTimer);
+  clearTimeout(touchTimer);
 });
 
 function copyText(item) {
-    let original = item.textContent;
-    
-    const textarea = document.createElement('textarea');
-    textarea.value = original;
-    document.body.appendChild(textarea); 
-    textarea.select(); 
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+  let original = item.textContent;
 
-    item.textContent = "Copy!";
-    setTimeout(() => {
-        item.textContent = original;
-    }, 700);
+  const textarea = document.createElement('textarea');
+  textarea.value = original;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+
+  item.textContent = "Copy!";
+  setTimeout(() => {
+    item.textContent = original;
+  }, 700);
 }

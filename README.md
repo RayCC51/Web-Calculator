@@ -8,15 +8,12 @@ Start at 2025-02-03
 
 ### Step
 - UI
-- numbers <<<
-- +-*/
+- numbers
+- operator
+- backspace
+- ac <<<
 - =
-- backspace - long press: ac
 - better UI
-- ^%
-- ()
-- pi e
-- log
 - history
 - ...?
 
