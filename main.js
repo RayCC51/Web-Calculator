@@ -51,16 +51,41 @@ let resultArr = [];
 // change result value
 const changeResultValue = (item) => {
   let newKey = item.id;
+  let combinationOrigin;
   // if(resultArr.length > 0){
   //   isNewKeyValid(newKey);
   // }
-  if (true) {
+  
+  // parsing combination: 000, ()
+  if(symbol[newKey][1] == 8){
+    //console.log(newKey);
+    if (newKey == "num-thousand"){
+      newKey = "num-zero";
+      combinationOrigin = "num-thousand";
+    }
+    else if (newKey == "op-parentheses"){
+      newKey = "op-open";
+      combinationOrigin = "op-parentheses";
+    }
+  }
+  
+  if (true) { // isNewKeyValid
     resultArr.push(newKey);
     //console.log(symbol[newKey][0]);
   } else{
     resultArr.pop();
     resultArr.push(newKey);
   }
+  if (combinationOrigin){
+    if(combinationOrigin == "num-thousand"){
+      resultArr.push("num-zero");
+      resultArr.push("num-zero");
+    }
+    else if (combinationOrigin == "op-parentheses"){
+      resultArr.push("op-close");
+    }
+  }
+  
   setResultValue();
 };
 
@@ -88,14 +113,23 @@ const isNewKeyValid = (newKey) => {
 
 // 000, log, () -> 0-0-0, log(-), (-)
 // . -> 0.
-// hidden multiply
 const parsingCombination = (key) => {
   // TODO
 }
 
+// hidden multiply
+const parsingHiddenMultiply = (key) => {
+  
+}
+
 // set result array on html
 const setResultValue = () => {
-  resultBox.textContent = resultArr.join(' '); // DEBUG
+  let temp = [];
+  for (let item of resultArr){
+    //console.log(item);
+    temp.push(symbol[item][0]);
+  }
+  resultBox.textContent = temp.join('');
 }
 
 
@@ -104,7 +138,12 @@ const allBtn = document.querySelectorAll(".btn");
 
 allBtn.forEach(item => {
   if (item.classList.contains("cursor")) {
-    item.onclick = () => console.log(item.id);
+    item.onclick = () => {
+      if(resultArr.length){
+        resultArr.pop();
+        setResultValue();
+      };
+    };
   }
   else {
     item.onclick = () => changeResultValue(item);
