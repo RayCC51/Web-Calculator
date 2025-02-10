@@ -61,6 +61,10 @@ const changeResultValue = (item) => {
   // if(resultArr.length > 0){
   //   isNewKeyValid(newKey);
   // }
+  
+  if(resultArr.length == 0 && newKey == "num-thousand"){
+    newKey = "num-zero";
+  }
 
   [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
 
@@ -112,7 +116,6 @@ const pushCombination = (combinationOrigin) => {
 
 
 // true will append new key, false will replace last key
-// FIXME: 000 is vaild after empty
 const isNewKeyValid = (newKey) => {
   if(resultArr.length == 0){
     if(symbol[newKey][1] != 3 && symbol[newKey][1] != 7){
@@ -128,7 +131,7 @@ const isNewKeyValid = (newKey) => {
     return true;
   }
   else if (hiddenMultiplyList.includes(checkSum)) {
-    parsingCombination(newKey);
+    parsingHiddenMultiply(newKey);
     return true;
   }
   else {
@@ -139,7 +142,7 @@ const isNewKeyValid = (newKey) => {
 
 // hidden multiply
 const parsingHiddenMultiply = (key) => {
-
+resultArr.push("op-multiple");
 };
 
 // set result array on html
