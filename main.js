@@ -45,9 +45,14 @@ const symbol = {
 // thousand -> zero zero zero
 // parentheses -> open close
 
-// result
+// result init
 const resultBox = document.getElementById("result");
 let resultArr = [];
+
+// first digit: before key
+// second digit: after key
+const validList = [0,2,3,4,7,13,14,17,20,30,31,35,36,40,41,45,46,50,51,54,55,56,60,61,64,65,66,67,73,74,77];
+const hiddenMultiply = [1,5,6,10,11,15,16,70,71,75,76];
 
 // change result value
 const changeResultValue = (item) => {
@@ -74,10 +79,6 @@ const changeResultValue = (item) => {
 
   setResultValue();
 };
-
-// TODO: fill in these list
-const validList = [];
-const hiddenMultiply = [];
 
 // parsing 000, ()
 const parsingCombination = (newKey, combinationOrigin) => {
