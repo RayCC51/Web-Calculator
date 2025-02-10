@@ -116,6 +116,8 @@ const pushCombination = (combinationOrigin) => {
 
 
 // true will append new key, false will replace last key
+// FIXME: 9.9.9.9
+// FIXME: 00000
 const isNewKeyValid = (newKey) => {
   if(resultArr.length == 0){
     if(symbol[newKey][1] != 3 && symbol[newKey][1] != 7){
