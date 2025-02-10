@@ -52,7 +52,7 @@ let resultArr = [];
 // first digit: before key
 // second digit: after key
 const validList = [0,2,3,4,7,13,14,17,20,30,31,35,36,40,41,45,46,50,51,54,55,56,60,61,64,65,66,67,73,74,77];
-const hiddenMultiply = [1,5,6,10,11,15,16,70,71,75,76];
+const hiddenMultiplyList = [1,5,6,10,11,15,16,70,71,75,76];
 
 // change result value
 const changeResultValue = (item) => {
@@ -64,7 +64,7 @@ const changeResultValue = (item) => {
 
   [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
 
-  if (true) { // isNewKeyValid
+  if (isNewKeyValid(newKey)) {
     if (combinationOrigin) {
       pushCombination(combinationOrigin);
     }
@@ -112,27 +112,35 @@ const pushCombination = (combinationOrigin) => {
 
 
 // true will append new key, false will replace last key
+// FIXME: 000 is vaild after empty
 const isNewKeyValid = (newKey) => {
+  if(resultArr.length == 0){
+    if(symbol[newKey][1] != 3 && symbol[newKey][1] != 7){
+      return true;
+    }
+  }
+  else{
   let checkSum = symbol[resultArr[resultArr.length - 1]][1] * 10 + symbol[newKey][1];
   // console.log(checkSum);
   // console.log(resultArr[resultArr.length-1]);
 
-  if (checkSum in validList) {
+  if (validList.includes(checkSum)) {
     return true;
   }
-  else if (checkSum in hiddenMultiply) {
+  else if (hiddenMultiplyList.includes(checkSum)) {
     parsingCombination(newKey);
     return true;
   }
   else {
     return false;
   }
-}
+  }
+};
 
 // hidden multiply
 const parsingHiddenMultiply = (key) => {
 
-}
+};
 
 // set result array on html
 const setResultValue = () => {
@@ -142,7 +150,7 @@ const setResultValue = () => {
     temp.push(symbol[item][0]);
   }
   resultBox.textContent = temp.join('');
-}
+};
 
 // backspace
 const popLastElement = () => {
