@@ -11,19 +11,21 @@ Start at 2025-02-03
 - numbers
 - operator
 - backspace
-- ac <<<
-- =
+- ac
+- Add root
+- = <<<
+- move cursor
 - better UI
 - history
 - ...?
 
 ### UI
-||||||
+|result|
 |:-:|:-:|:-:|:-:|:-:|
-|<|result|>|
-|()|log|pi|e|<-|
+|<|mod|log|pi||>|
+|c|()|ln|e|<-|
 |1|2|3|+|^|
-|4|5|6|-|%|
+|4|5|6|-|root|
 |7|8|9|*|=|
 |000|0|.|/|=|
 

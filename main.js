@@ -40,6 +40,7 @@ const symbol = {
   "op-divide": ["/", 3],
   "op-power": ["^", 3],
   "op-mod": ["%", 3],
+  "op-root": ["√", 5],
   "equal": ["=", 9],
 };
 // thousand -> zero zero zero

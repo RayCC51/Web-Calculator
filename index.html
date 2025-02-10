@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Calculator</title>
-  
+
   <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css">
   <!-- PWA manifest -->
@@ -15,55 +15,69 @@
 </head>
 
 <body>
-  <div class="clac">
-    <button type="button" id="cursor -left" class="btn cursor"/>
-    <p id="result" class="result">
-      
-    </p>
-    <button type="button" id="cursor-right"class="btn cursor"/>
-  </div>
+  <p id="result" class="result">
+  </p>
   <table class="calc">
     <tr>
+      <td>
+        <button type="button" id="cursor -left" class="btn cursor">
+          < </button>
+      </td>
+      <td>
+        <button type="button" id="op-mod" class="btn op">
+          %
+        </button>
+      </td>
+      <td>
+        <button type="button" id="op-log" class="btn op">
+          log
+        </button>
+      </td>
+      <td>
+        <button type="button" id="num-pi" class="btn num">
+          pi
+        </button>
+      </td>
+      <td>
+        <button type="button" id="cursor-right" class="btn cursor">
+          >
+        </button>
+      </td>
+    </tr>
+    <tr>
       <td><button type="button" id="cursor-ac" class="btn cursor">
-        C
-      </button></td>
+          C
+        </button></td>
       <td><button type="button" id="op-parentheses" class="btn op">
           ( )
         </button>
-        </td>
+      </td>
       <td>
-        <button type="button" id="op-log" class="btn op half">
-          log
-        </button>
-        <button type="button" id="op-ln" class="btn op half">
+        <button type="button" id="op-ln" class="btn op">
           ln
         </button>
-        </td>
+      </td>
       <td>
-        <button type="button" id="num-pi" class="btn num half">
-          pi
-        </button>
-        <button type="button" id="num-e" class="btn num half">
+        <button type="button" id="num-e" class="btn num">
           e
-          </button>
-        </td>
+        </button>
+      </td>
       <td><button type="button" id="cursor-backspace" class="btn cursor">
-          <-
-        </button></td>
+          <- </button></td>
     </tr>
     <tr>
       <td><button type="button" id="num-one" class="btn num">
           1
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-two" class="btn num">
           2
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-three" class="btn num">
           3
         </button>
-        </td>
+      </td>
       <td><button type="button" id="op-plus" class="btn op">
           +
         </button></td>
@@ -75,35 +89,35 @@
       <td><button type="button" id="num-four" class="btn num">
           4
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-five" class="btn num">
           5
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-six" class="btn num">
           6
         </button>
-        </td>
+      </td>
       <td><button type="button" id="op-minus" class="btn op">
           -
         </button></td>
-      <td><button type="button" id="op-mod" class="btn op">
-          %
+      <td><button type="button" id="op-root" class="btn op">
+          √
         </button></td>
     </tr>
     <tr>
       <td><button type="button" id="num-seven" class="btn num">
           7
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-eight" class="btn num">
           8
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-nine" class="btn num">
           9
         </button>
-        </td>
+      </td>
       <td><button type="button" id="op-multiple" class="btn op">
           *
         </button></td>
@@ -115,15 +129,15 @@
       <td><button type="button" id="num-thousand" class="btn num">
           000
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-zero" class="btn num">
           0
         </button>
-        </td>
+      </td>
       <td><button type="button" id="num-dot" class="btn dot">
           .
         </button>
-        </td>
+      </td>
       <td><button type="button" id="op-divide" class="btn op">
           /
         </button></td>
