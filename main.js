@@ -57,7 +57,31 @@ const changeResultValue = (item) => {
   //   isNewKeyValid(newKey);
   // }
 
-  // parsing combination: 000, ()
+  [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
+
+  if (true) { // isNewKeyValid
+    if (combinationOrigin) {
+      pushCombination(combinationOrigin);
+    }
+    else {
+      resultArr.push(newKey);
+    }
+    //console.log(symbol[newKey][0]);
+  } else { // FIXME -(-( + -> -(-+
+    // resultArr.pop();
+    // resultArr.push(newKey);
+  }
+
+  setResultValue();
+};
+
+// TODO: fill in these list
+const validList = [];
+const hiddenMultiply = [];
+
+// parsing 000, ()
+const parsingCombination = (newKey, combinationOrigin) => {
+
   if (symbol[newKey][1] == 8) {
     //console.log(newKey);
     if (newKey == "num-thousand") {
@@ -70,29 +94,21 @@ const changeResultValue = (item) => {
     }
   }
 
-  if (true) { // isNewKeyValid
-    resultArr.push(newKey);
-    //console.log(symbol[newKey][0]);
-  } else {
-    resultArr.pop();
-    resultArr.push(newKey);
-  }
-  if (combinationOrigin) {
-    if (combinationOrigin == "num-thousand") {
-      resultArr.push("num-zero");
-      resultArr.push("num-zero");
-    }
-    else if (combinationOrigin == "op-parentheses") {
-      resultArr.push("op-close");
-    }
-  }
-
-  setResultValue();
+  return [newKey, combinationOrigin];
 };
 
-// TODO: fill in these list
-const validList = [];
-const hiddenMultiply = [];
+const pushCombination = (combinationOrigin) => {
+  if (combinationOrigin == "num-thousand") {
+    resultArr.push("num-zero");
+    resultArr.push("num-zero");
+    resultArr.push("num-zero");
+  }
+  else if (combinationOrigin == "op-parentheses") {
+    resultArr.push("op-open");
+    resultArr.push("op-close");
+  }
+};
+
 
 // true will append new key, false will replace last key
 const isNewKeyValid = (newKey) => {
@@ -110,12 +126,6 @@ const isNewKeyValid = (newKey) => {
   else {
     return false;
   }
-}
-
-// 000, log, () -> 0-0-0, log(-), (-)
-// . -> 0.
-const parsingCombination = (key) => {
-  // TODO
 }
 
 // hidden multiply
@@ -179,7 +189,7 @@ const cursorHandler = (item) => {
 
   }
   // ac
-  else if (item.id == "cursor-ac"){
+  else if (item.id == "cursor-ac") {
     item.onclick = () => {
       //console.log("all clear");
       resultArr = [];
