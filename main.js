@@ -222,9 +222,7 @@ const parsingHiddenMultiply = (key) => {
 
 // set result array on html
 const setResultValue = () => {
-  if (resultArr2.length > 0){
     resultArr2.unshift("space");
-  }
   
   let temp = [];
   let unionResult = [...resultArr, ...resultArr2];
@@ -235,9 +233,7 @@ const setResultValue = () => {
   }
   resultBox.textContent = temp.join('');
   
-  if(resultArr2.length > 1){
-    resultArr2.shift()
-  }
+     resultArr2.shift()
 };
 
 // backspace
