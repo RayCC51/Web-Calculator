@@ -42,6 +42,7 @@ const symbol = {
   "op-mod": ["%", 3],
   "op-root": ["√", 5],
   "equal": ["=", 9],
+  "space": ["_", 9],
 };
 // thousand -> zero zero zero
 // parentheses -> open close
@@ -49,6 +50,7 @@ const symbol = {
 // result init
 const resultBox = document.getElementById("result");
 let resultArr = [];
+let resultArr2 = [];
 
 // first digit: before key
 // second digit: after key
@@ -122,6 +124,10 @@ const pushCombination = (combinationOrigin) => {
 
 // true will append new key, false will replace last key
 const isNewKeyValid = (newKey) => {
+  if(!symbol[newKey]){
+    console.log("invalid key: ", newKey);
+  }
+  
   if (resultArr.length == 0) {
     if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
       return true;
@@ -216,12 +222,22 @@ const parsingHiddenMultiply = (key) => {
 
 // set result array on html
 const setResultValue = () => {
+  if (resultArr2.length > 0){
+    resultArr2.unshift("space");
+  }
+  
   let temp = [];
-  for (let item of resultArr) {
+  let unionResult = [...resultArr, ...resultArr2];
+  
+  for (let item of unionResult) {
     //console.log(item);
     temp.push(symbol[item][0]);
   }
   resultBox.textContent = temp.join('');
+  
+  if(resultArr2.length > 1){
+    resultArr2.shift()
+  }
 };
 
 // backspace
@@ -274,12 +290,27 @@ const cursorHandler = (item) => {
     item.onclick = () => {
       //console.log("all clear");
       resultArr = [];
+      resultArr2 = [];
       setResultValue();
     };
   }
   // move cursor
-  else {
-    // TODO
+  else if(item.id === "cursor-left"){
+    item.onclick = () => {
+      if(resultArr.length > 0){
+    resultArr2.unshift(resultArr.pop());
+    setResultValue();}
+    };
+  }
+  else if (item.id === "cursor-right" ){
+    item.onclick = () => {
+      if(resultArr2.length > 0){
+    resultArr.push(resultArr2.shift());
+    setResultValue();
+    }};
+  }
+  else{
+    console.log("wrong cursor key input: ", item.id);
   }
 };
 

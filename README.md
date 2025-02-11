@@ -1,15 +1,15 @@
 # Let's make Calculator!
 
-Working on
+Making with
 - Android 10
 - spck editor app
+- Chat GPT 4o mini
 
 Start at 2025-02-03
 
 ### Step
 - UI
-- numbers
-- operator
+- numbers, operator
 - backspace
 - ac
 - Add root

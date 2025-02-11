@@ -1,6 +1,3 @@
-// sw.js
-
-// 서비스 워커 코드
 self.addEventListener('install', (event) => {
     console.log('Service Worker installing...');
     event.waitUntil(
@@ -11,8 +8,7 @@ self.addEventListener('install', (event) => {
                 '/calculator-128.png',
                 '/calculator-512.png',
                 '/main.js',
-                '/style.css',
-                // 추가할 자원 목록
+                '/style.css'
             ]);
         })
     );
@@ -27,7 +23,6 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// 서비스 워커 등록 코드
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
