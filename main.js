@@ -345,6 +345,8 @@ resultBox.addEventListener('touchend', () => {
 function copyText(item) {
   let original = item.textContent;
   
+  original = original.replace(symbol["space"][0], "");
+  
   const textarea = document.createElement('textarea');
   textarea.value = original;
   document.body.appendChild(textarea);
