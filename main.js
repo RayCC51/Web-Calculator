@@ -54,6 +54,7 @@ let resultArr = [];
 // second digit: after key
 const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77];
 const hiddenMultiplyList = [1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
+const replaceList = [23, 24, 25, 26, 27, 33, 34, 37, 43, 44, 47]; // 09 -> 9
 
 // change result value
 const changeResultValue = (item) => {
@@ -120,7 +121,6 @@ const pushCombination = (combinationOrigin) => {
 
 
 // true will append new key, false will replace last key
-// FIXME: if false replace or prevent
 const isNewKeyValid = (newKey) => {
   if (resultArr.length == 0) {
     if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
@@ -129,23 +129,40 @@ const isNewKeyValid = (newKey) => {
   }
   else {
     // prevent 1.1.1 and 0000
-    if(newKey === "num-zero" || newKey === "num-dot"){
-      if(!isZeroDotValid(newKey)){
+    if (newKey === "num-zero" || newKey === "num-dot") {
+      if (!isZeroDotValid(newKey)) {
         return false;
       }
     }
-    
-    let checkSum = symbol[resultArr[resultArr.length - 1]][1] * 10 + symbol[newKey][1];
+    let previousKey = resultArr[resultArr.length - 1];
+    let checkSum = symbol[previousKey][1] * 10 + symbol[newKey][1];
     // console.log(checkSum);
     // console.log(resultArr[resultArr.length-1]);
     
-    if (validList.includes(checkSum)) {
+    let numSet = findNumberSet();
+    
+    // invalid, replace: 01 -> 1
+    if (checkSum === 0 && numSet.length === 1 && numSet[0] === "num-zero"){
+      console.log(checkSum);
+      resultArr.pop();
+      return true;
+    }
+    
+    else if (validList.includes(checkSum)) {
       return true;
     }
     else if (hiddenMultiplyList.includes(checkSum)) {
       parsingHiddenMultiply(newKey);
       return true;
     }
+    
+    // invalid, replace: +- -> -
+    // FIXME -(-(-+ -> -(-(+
+    else if (replaceList.includes(checkSum)) {
+      resultArr.pop();
+      return true;
+    }
+    
     else {
       return false;
     }
@@ -156,13 +173,13 @@ const isNewKeyValid = (newKey) => {
 const isZeroDotValid = (newKey) => {
   // console.log(newKey);
   let numSet = findNumberSet();
-  console.log(numSet);
+  // console.log(numSet);
   // prevent 1.1.1.
-  if (newKey === "num-dot" && numSet.includes("num-dot")){
+  if (newKey === "num-dot" && numSet.includes("num-dot")) {
     return false;
   }
   // prevent 00, allow 0.00
-  if (newKey === "num-zero" && numSet.length === 1 && numSet[0] === "num-zero" && !numSet.includes("num-dot")){
+  if (newKey === "num-zero" && numSet.length === 1 && numSet[0] === "num-zero" && !numSet.includes("num-dot")) {
     return false;
   }
   
@@ -174,16 +191,16 @@ const isZeroDotValid = (newKey) => {
 // start at end point
 const findNumberSet = () => {
   let numSet = [];
-  for (let i = resultArr.length-1; i >= 0; i--){
+  for (let i = resultArr.length - 1; i >= 0; i--) {
     // console.log(resultArr[i]);
     id = resultArr[i];
     type = symbol[id][1];
     // console.log(id, type);
     // if key is number or dot
-    if(type === 0 || type === 2){
+    if (type === 0 || type === 2) {
       numSet.push(id);
     }
-    else{
+    else {
       break;
     }
   }
