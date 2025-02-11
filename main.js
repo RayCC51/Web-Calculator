@@ -231,7 +231,8 @@ const setResultValue = () => {
     //console.log(item);
     temp.push(symbol[item][0]);
   }
-  resultBox.textContent = temp.join('');
+  // resultBox.textContent = temp.join('');
+  resultBox.innerHTML = temp.join('').replace("_", '<span class="blink">_</span>');
   
      resultArr2.shift()
 };

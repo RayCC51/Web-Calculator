@@ -20,6 +20,16 @@ table{
   height: calc(var(--btn-size) * 2);
 }
 
+.blink {
+  animation: blink-animation 1s steps(3, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
 #result{
   width: 100%;
   height: 1.5em;
