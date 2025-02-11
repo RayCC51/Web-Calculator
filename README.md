@@ -17,8 +17,9 @@ Start at 2025-02-03
 - replace or block new invalid key
 - move cursor
 - = <<<
-- better UI
 - history
+- i
+- better UI
 - ...?
 
 ### UI

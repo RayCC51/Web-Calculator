@@ -12,7 +12,7 @@ Digit code:
 6: (: + - log ( _ : 1 pi )
 7: ): 1 pi ( ) : 
 8: combination
-9: equal, empty
+9: equal, space, error
 */
 const symbol = {
   "num-one": ["1", 0],
@@ -43,6 +43,12 @@ const symbol = {
   "op-root": ["√", 5],
   "equal": ["=", 9],
   "space": ["_", 9],
+  "error-NaN": ["Not a number", 9],
+  "error-zero": ["Zero division error", 9],
+  "error-over": ["Overflow", 9],
+  "error-under": ["Underflow", 9],
+  "error-syntax": ["Syntax error", 9],
+  "error": ["Error", 9],
 };
 // thousand -> zero zero zero
 // parentheses -> open close
@@ -97,7 +103,7 @@ const changeResultValue = (item) => {
         resultArr.push(newKey);
       }
       //console.log(symbol[newKey][0]);
-    } else { // FIXME -(-( + -> -(-+
+    } else {
       // resultArr.pop();
       // resultArr.push(newKey);
     }
@@ -155,10 +161,19 @@ const isNewKeyValid = (newKey) => {
         return false;
       }
     }
+    
     let previousKey = resultArr[resultArr.length - 1];
     let checkSum = symbol[previousKey][1] * 10 + symbol[newKey][1];
     // console.log(checkSum);
     // console.log(resultArr[resultArr.length-1]);
+    
+    // if result show Error
+    if(symbol[previousKey][1] == 9){
+      resultArr.pop();
+      if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
+        return true;
+      }
+    }
     
     let numSet = findNumberSet();
     
@@ -192,8 +207,9 @@ const isNewKeyValid = (newKey) => {
 
 // parsing and calculating
 const calculate = () => {
+  let answer = "error";
   // TODO
-  return "num-zero";
+  return answer;
 }
 
 // prevent 1.1.1 and 000
