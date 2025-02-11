@@ -85,6 +85,11 @@ const changeResultValue = (item) => {
     console.log("history: ", history);
   }
   else {
+        // if result show Error
+    if(resultArr.length > 0 && symbol[resultArr[0]][1] == 9){
+      resultArr.pop();
+    }
+    
     // first key input
     if (findNumberSet().length === 0) {
       if (newKey == "num-thousand") {
@@ -168,14 +173,6 @@ const isNewKeyValid = (newKey) => {
     let checkSum = symbol[previousKey][1] * 10 + symbol[newKey][1];
     // console.log(checkSum);
     // console.log(resultArr[resultArr.length-1]);
-    
-    // if result show Error
-    if(symbol[previousKey][1] == 9){
-      resultArr.pop();
-      if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
-        return true;
-      }
-    }
     
     let numSet = findNumberSet();
     
