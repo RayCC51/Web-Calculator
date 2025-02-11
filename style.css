@@ -6,6 +6,10 @@ body {
     font-size: 15pt;
 }
 
+table{
+  width: 100%;
+}
+
 .btn{
   width: var(--btn-size);
   height: var(--btn-size);

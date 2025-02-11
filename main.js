@@ -52,8 +52,8 @@ let resultArr = [];
 
 // first digit: before key
 // second digit: after key
-const validList = [0,2,3,4,7,13,14,17,20,30,31,35,36,40,41,45,46,50,51,54,55,56,60,61,64,65,66,67,73,74,77];
-const hiddenMultiplyList = [1,5,6,10,11,15,16,70,71,75,76];
+const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77];
+const hiddenMultiplyList = [1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
 
 // change result value
 const changeResultValue = (item) => {
@@ -63,12 +63,15 @@ const changeResultValue = (item) => {
   //   isNewKeyValid(newKey);
   // }
   
-  if(resultArr.length == 0 && newKey == "num-thousand"){
-    newKey = "num-zero";
+  // first key input
+  if (findNumberSet().length === 0) {
+    if (newKey == "num-thousand") {
+      newKey = "num-zero";
+    }
   }
-
+  
   [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
-
+  
   if (isNewKeyValid(newKey)) {
     if (combinationOrigin) {
       pushCombination(combinationOrigin);
@@ -81,13 +84,13 @@ const changeResultValue = (item) => {
     // resultArr.pop();
     // resultArr.push(newKey);
   }
-
+  
   setResultValue();
 };
 
 // parsing 000, ()
 const parsingCombination = (newKey, combinationOrigin) => {
-
+  
   if (symbol[newKey][1] == 8) {
     //console.log(newKey);
     if (newKey == "num-thousand") {
@@ -99,7 +102,7 @@ const parsingCombination = (newKey, combinationOrigin) => {
       combinationOrigin = "op-parentheses";
     }
   }
-
+  
   return [newKey, combinationOrigin];
 };
 
@@ -117,35 +120,81 @@ const pushCombination = (combinationOrigin) => {
 
 
 // true will append new key, false will replace last key
-// FIXME: 9.9.9.9
-// FIXME: 00000
+// FIXME: if false replace or prevent
 const isNewKeyValid = (newKey) => {
-  if(resultArr.length == 0){
-    if(symbol[newKey][1] != 3 && symbol[newKey][1] != 7){
+  if (resultArr.length == 0) {
+    if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
       return true;
     }
   }
-  else{
-  let checkSum = symbol[resultArr[resultArr.length - 1]][1] * 10 + symbol[newKey][1];
-  // console.log(checkSum);
-  // console.log(resultArr[resultArr.length-1]);
-
-  if (validList.includes(checkSum)) {
-    return true;
-  }
-  else if (hiddenMultiplyList.includes(checkSum)) {
-    parsingHiddenMultiply(newKey);
-    return true;
-  }
   else {
-    return false;
-  }
+    // prevent 1.1.1 and 0000
+    if(newKey === "num-zero" || newKey === "num-dot"){
+      if(!isZeroDotValid(newKey)){
+        return false;
+      }
+    }
+    
+    let checkSum = symbol[resultArr[resultArr.length - 1]][1] * 10 + symbol[newKey][1];
+    // console.log(checkSum);
+    // console.log(resultArr[resultArr.length-1]);
+    
+    if (validList.includes(checkSum)) {
+      return true;
+    }
+    else if (hiddenMultiplyList.includes(checkSum)) {
+      parsingHiddenMultiply(newKey);
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 };
 
+// prevent 1.1.1 and 000
+const isZeroDotValid = (newKey) => {
+  // console.log(newKey);
+  let numSet = findNumberSet();
+  console.log(numSet);
+  // prevent 1.1.1.
+  if (newKey === "num-dot" && numSet.includes("num-dot")){
+    return false;
+  }
+  // prevent 00, allow 0.00
+  if (newKey === "num-zero" && numSet.length === 1 && numSet[0] === "num-zero" && !numSet.includes("num-dot")){
+    return false;
+  }
+  
+  return true;
+}
+
+// find a set of numbers
+// (47)log48-292 => 292
+// start at end point
+const findNumberSet = () => {
+  let numSet = [];
+  for (let i = resultArr.length-1; i >= 0; i--){
+    // console.log(resultArr[i]);
+    id = resultArr[i];
+    type = symbol[id][1];
+    // console.log(id, type);
+    // if key is number or dot
+    if(type === 0 || type === 2){
+      numSet.push(id);
+    }
+    else{
+      break;
+    }
+  }
+  numSet.reverse();
+  // console.log(numSet);
+  return numSet;
+}
+
 // hidden multiply
 const parsingHiddenMultiply = (key) => {
-resultArr.push("op-multiple");
+  resultArr.push("op-multiple");
 };
 
 // set result array on html
@@ -171,11 +220,11 @@ const cursorHandler = (item) => {
   if (item.id == "cursor-backspace") {
     let intervalId;
     let delay = 400;
-
+    
     item.onclick = () => {
       popLastElement();
     };
-
+    
     const startPoppingInterval = () => {
       intervalId = setInterval(() => {
         popLastElement();
@@ -189,19 +238,19 @@ const cursorHandler = (item) => {
         }
       }, delay);
     };
-
+    
     const stopPoppingInterval = () => {
       clearInterval(intervalId);
       delay = 300;
     };
-
+    
     item.onmousedown = startPoppingInterval;
     item.ontouchstart = startPoppingInterval;
     item.onmouseup = stopPoppingInterval;
     item.ontouchend = stopPoppingInterval;
     item.onmouseleave = stopPoppingInterval;
     item.ontouchcancel = stopPoppingInterval;
-
+    
   }
   // ac
   else if (item.id == "cursor-ac") {
@@ -247,14 +296,14 @@ resultBox.addEventListener('touchend', () => {
 
 function copyText(item) {
   let original = item.textContent;
-
+  
   const textarea = document.createElement('textarea');
   textarea.value = original;
   document.body.appendChild(textarea);
   textarea.select();
   document.execCommand('copy');
   document.body.removeChild(textarea);
-
+  
   item.textContent = "Copy!";
   setTimeout(() => {
     item.textContent = original;

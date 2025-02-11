@@ -13,7 +13,8 @@ Start at 2025-02-03
 - backspace
 - ac
 - Add root
-- = <<<
+- prevent exception <<<
+- =
 - move cursor
 - better UI
 - history
