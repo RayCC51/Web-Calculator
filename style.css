@@ -31,6 +31,18 @@ table{
   }
 }
 
+.num {
+  background-color: lightgray;
+}
+
+.op {
+  background-color: lightblue;
+}
+
+.cursor {
+  background-color: lightyellow;
+}
+
 #result{
   width: 100%;
   height: 1.5em;
