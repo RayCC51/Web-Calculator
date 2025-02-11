@@ -8,7 +8,7 @@ Digit code:
 2: .: 1 _ :
 3: +: 1 pi ) :
 4: -: 1 pi log ( ) _ :
-5: log: + - log ( _ : 1 pi )
+5: log √: + - log ( _ : 1 pi )
 6: (: + - log ( _ : 1 pi )
 7: ): 1 pi ( ) : 
 8: combination
@@ -62,9 +62,10 @@ let history = []; // TODO
 
 // first digit: before key
 // second digit: after key
-const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77];
-const hiddenMultiplyList = [1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
-const replaceList = [23, 24, 25, 26, 27, 33, 34, 37, 43, 44, 47]; // 09 -> 9
+// const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77];
+// const hiddenMultiplyList = [1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
+const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77, 1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
+const replaceList = [23, 24, 25, 26, 27, 33, 34, 37, 43, 44, 47]; // 09 -> 9, (+ -> (
 
 // change result value
 const changeResultValue = (item) => {
@@ -188,11 +189,12 @@ const isNewKeyValid = (newKey) => {
     else if (validList.includes(checkSum)) {
       return true;
     }
+    /*
     else if (hiddenMultiplyList.includes(checkSum)) {
       parsingHiddenMultiply(newKey);
       return true;
     }
-    
+    */
     // invalid, replace: +- -> -
     // FIXME -(-(-+ -> -(-(+
     else if (replaceList.includes(checkSum)) {
@@ -253,10 +255,12 @@ const findNumberSet = () => {
   return numSet;
 }
 
+/*
 // hidden multiply
 const parsingHiddenMultiply = (key) => {
   resultArr.push("op-multiple");
 };
+*/
 
 // set result array on html
 const setResultValue = () => {
