@@ -15,8 +15,8 @@ Start at 2025-02-03
 - Add root
 - prevent exception
 - replace or block new invalid key
-- move cursor <<<
-- =
+- move cursor
+- = <<<
 - better UI
 - history
 - ...?

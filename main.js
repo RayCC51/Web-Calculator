@@ -51,6 +51,7 @@ const symbol = {
 const resultBox = document.getElementById("result");
 let resultArr = [];
 let resultArr2 = [];
+let history = []; // TODO
 
 // first digit: before key
 // second digit: after key
@@ -66,28 +67,41 @@ const changeResultValue = (item) => {
   //   isNewKeyValid(newKey);
   // }
   
-  // first key input
-  if (findNumberSet().length === 0) {
-    if (newKey == "num-thousand") {
-      newKey = "num-zero";
+  // hit equal
+  if (newKey === "equal") {
+    history = [...resultArr, ...resultArr2];
+    resultArr = [];
+    resultArr2 = [];
+    resultArr.push(calculate());
+    
+    console.log("history: ", history);
+  }
+  else {
+    // first key input
+    if (findNumberSet().length === 0) {
+      if (newKey == "num-thousand") {
+        newKey = "num-zero";
+      }
+      if (newKey == "num-dot"){
+        resultArr.push("num-zero");
+      }
+    }
+    
+    [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
+    
+    if (isNewKeyValid(newKey)) {
+      if (combinationOrigin) {
+        pushCombination(combinationOrigin);
+      }
+      else {
+        resultArr.push(newKey);
+      }
+      //console.log(symbol[newKey][0]);
+    } else { // FIXME -(-( + -> -(-+
+      // resultArr.pop();
+      // resultArr.push(newKey);
     }
   }
-  
-  [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
-  
-  if (isNewKeyValid(newKey)) {
-    if (combinationOrigin) {
-      pushCombination(combinationOrigin);
-    }
-    else {
-      resultArr.push(newKey);
-    }
-    //console.log(symbol[newKey][0]);
-  } else { // FIXME -(-( + -> -(-+
-    // resultArr.pop();
-    // resultArr.push(newKey);
-  }
-  
   setResultValue();
 };
 
@@ -117,17 +131,18 @@ const pushCombination = (combinationOrigin) => {
   }
   else if (combinationOrigin == "op-parentheses") {
     resultArr.push("op-open");
-    resultArr.push("op-close");
+    resultArr2.push("op-close");
   }
 };
 
 
 // true will append new key, false will replace last key
 const isNewKeyValid = (newKey) => {
-  if(!symbol[newKey]){
+  if (!symbol[newKey]) {
     console.log("invalid key: ", newKey);
   }
   
+  // +/*) can not be first key
   if (resultArr.length == 0) {
     if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
       return true;
@@ -148,7 +163,7 @@ const isNewKeyValid = (newKey) => {
     let numSet = findNumberSet();
     
     // invalid, replace: 01 -> 1
-    if (checkSum === 0 && numSet.length === 1 && numSet[0] === "num-zero"){
+    if (checkSum === 0 && numSet.length === 1 && numSet[0] === "num-zero") {
       console.log(checkSum);
       resultArr.pop();
       return true;
@@ -174,6 +189,12 @@ const isNewKeyValid = (newKey) => {
     }
   }
 };
+
+// parsing and calculating
+const calculate = () => {
+  // TODO
+  return "num-zero";
+}
 
 // prevent 1.1.1 and 000
 const isZeroDotValid = (newKey) => {
@@ -222,7 +243,7 @@ const parsingHiddenMultiply = (key) => {
 
 // set result array on html
 const setResultValue = () => {
-    resultArr2.unshift("space");
+  resultArr2.unshift("space");
   
   let temp = [];
   let unionResult = [...resultArr, ...resultArr2];
@@ -234,7 +255,7 @@ const setResultValue = () => {
   // resultBox.textContent = temp.join('');
   resultBox.innerHTML = temp.join('').replace("_", '<span class="blink">_</span>');
   
-     resultArr2.shift()
+  resultArr2.shift()
 };
 
 // backspace
@@ -292,21 +313,23 @@ const cursorHandler = (item) => {
     };
   }
   // move cursor
-  else if(item.id === "cursor-left"){
+  else if (item.id === "cursor-left") {
     item.onclick = () => {
-      if(resultArr.length > 0){
-    resultArr2.unshift(resultArr.pop());
-    setResultValue();}
+      if (resultArr.length > 0) {
+        resultArr2.unshift(resultArr.pop());
+        setResultValue();
+      }
     };
   }
-  else if (item.id === "cursor-right" ){
+  else if (item.id === "cursor-right") {
     item.onclick = () => {
-      if(resultArr2.length > 0){
-    resultArr.push(resultArr2.shift());
-    setResultValue();
-    }};
+      if (resultArr2.length > 0) {
+        resultArr.push(resultArr2.shift());
+        setResultValue();
+      }
+    };
   }
-  else{
+  else {
     console.log("wrong cursor key input: ", item.id);
   }
 };
