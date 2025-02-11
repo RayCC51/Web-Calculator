@@ -29,6 +29,7 @@ const symbol = {
   "num-dot": [".", 2],
   "num-pi": ["π", 1],
   "num-e": ["e", 1],
+  "num-i": ["i", 1],
   "op-parentheses": ["()", 8],
   "op-open": ["(", 6],
   "op-close": [")", 7],
