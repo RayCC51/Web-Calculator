@@ -214,7 +214,11 @@ const calculate = (exprArr) => {
   // TODO
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
-  // 2. combine numbers set
+  // 2. convert code to string
+  exprArr = exprArr.map(item => symbol[item][0]).join('');
+  // console.log(exprArr);
+  // 3. find nest parentheses -> calculate -> replace parentheses to result
+  // TODO
   
   return answer;
 }
@@ -293,15 +297,19 @@ const setResultValue = () => {
   
   let temp = [];
   let unionResult = [...resultArr, ...resultArr2];
-  
+  /*
   for (let item of unionResult) {
     //console.log(item);
     temp.push(symbol[item][0]);
   }
-  // resultBox.textContent = temp.join('');
-  resultBox.innerHTML = temp.join('').replace("_", '<span class="blink">_</span>');
+  */
+  temp = unionResult.map(item => symbol[item][0]);
   
-  resultArr2.shift()
+  // resultBox.textContent = temp.join('');
+  let spaceSymbol = symbol["space"][1];
+  resultBox.innerHTML = temp.join('').replace(spaceSymbol, `<span class="blink">${spaceSymbol}</span>`);
+  
+  resultArr2.shift();
 };
 
 // backspace
