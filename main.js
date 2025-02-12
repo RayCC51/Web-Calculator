@@ -91,7 +91,7 @@ const changeResultValue = (item) => {
     }
     
     // first key input
-    if (findNumberSet().length === 0) {
+    if (findNumberSet(resultArr).length === 0) {
       if (newKey == "num-thousand") {
         newKey = "num-zero";
       }
@@ -179,7 +179,7 @@ const isNewKeyValid = (newKey) => {
     // console.log(checkSum);
     // console.log(resultArr[resultArr.length-1]);
     
-    let numSet = findNumberSet();
+    let numSet = findNumberSet(resultArr);
     
     // invalid, replace: 01 -> 1
     if (checkSum === 0 && numSet.length === 1 && numSet[0] === "num-zero") {
@@ -214,8 +214,7 @@ const calculate = (exprArr) => {
   // TODO
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
-  // 2. find hidden multiply
-  exprArr = findHiddenMultiply(exprArr);
+  // 2. combine numbers set
   
   return answer;
 }
@@ -243,15 +242,10 @@ const countParentheses = (exprArr) => {
   return exprArr;
 };
 
-// calculate 2
-const findHiddenMultiply = (exprArr) => {
-  // TODO
-};
-
 // prevent 1.1.1 and 000
 const isZeroDotValid = (newKey) => {
   // console.log(newKey);
-  let numSet = findNumberSet();
+  let numSet = findNumberSet(resultArr);
   // console.log(numSet);
   // prevent 1.1.1.
   if (newKey === "num-dot" && numSet.includes("num-dot")) {
@@ -268,11 +262,11 @@ const isZeroDotValid = (newKey) => {
 // find a set of numbers
 // (47)log48-292 => 292
 // start at end point
-const findNumberSet = () => {
+const findNumberSet = (arr) => {
   let numSet = [];
-  for (let i = resultArr.length - 1; i >= 0; i--) {
+  for (let i = arr.length - 1; i >= 0; i--) {
     // console.log(resultArr[i]);
-    id = resultArr[i];
+    id = arr[i];
     type = symbol[id][1];
     // console.log(id, type);
     // if key is number or dot
