@@ -80,9 +80,9 @@ const changeResultValue = (item) => {
     history = [...resultArr, ...resultArr2];
     resultArr = [];
     resultArr2 = [];
-    resultArr.push(calculate());
-    
     console.log("history: ", history);
+    
+    resultArr.push(calculate([...history]));
   }
   else {
         // if result show Error
@@ -206,11 +206,45 @@ const isNewKeyValid = (newKey) => {
 };
 
 // parsing and calculating
-const calculate = () => {
+const calculate = (exprArr) => {
   let answer = "error";
+  
   // TODO
+  // 1. count parentheses and make valance
+  exprArr = countParentheses(exprArr);
+  // 2. find hidden parentheses
+  exprArr = findHiddenParentheses(exprArr);
+  
   return answer;
 }
+
+// calculate 1
+const countParentheses = (exprArr) => {
+  let countOpen = exprArr.filter(item => item === "op-open").length;
+  let countClose = exprArr.filter(item => item === "op-close").length;
+  let countDiff = countOpen - countClose;
+  console.log("open - close = ", countDiff);
+  
+  if (countDiff > 0){
+    for (let i = 0; i < countDiff; i++){
+      exprArr.push("op-close");
+      console.log("+ op-close");
+    }
+  }
+  else if (countDiff < 0){
+    for (let i = 0; i > countDiff; i--){
+      exprArr.unshift("op-open");
+      console.log("+ op-open");
+    }
+  }
+  
+  return exprArr;
+};
+
+// calculate 2
+const findHiddenParentheses = (exprArr) => {
+  // TODO
+};
 
 // prevent 1.1.1 and 000
 const isZeroDotValid = (newKey) => {
