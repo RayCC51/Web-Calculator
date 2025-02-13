@@ -209,7 +209,7 @@ const isNewKeyValid = (newKey) => {
 
 // parsing and calculating
 const calculate = (exprArr) => {
-  let answer = "error";
+  let answer = ["error"];
   
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
@@ -248,7 +248,7 @@ const calculate = (exprArr) => {
 // calculate 5
 const partCalculate = (arr) => {
   console.log("calculating");
-  let answer = "num-pi";
+  let answer = [];
   // TODO
   return answer;  
 };
