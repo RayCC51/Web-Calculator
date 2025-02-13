@@ -82,7 +82,7 @@ const changeResultValue = (item) => {
     resultArr2 = [];
     console.log("history: ", history);
     
-    resultArr.push(calculate([...history]));
+    resultArr.push(...calculate([...history]));
   }
   else {
         // if result show Error
@@ -215,7 +215,8 @@ const calculate = (exprArr) => {
   exprArr = countParentheses(exprArr);
   
   // 2-1. find hidden multiply and and multiply - except pi e i
-  exprArr = findHiddenMultiply(exprArr);
+  // exprArr = findHiddenMultiply(exprArr);
+  exprArr = iterFind(exprArr, hiddenMultiplyList, "op-multiple");
   
   // 2-2. add parentheses for order
   // log ln > √ ^ > * / % > + -
@@ -263,7 +264,13 @@ const calculate = (exprArr) => {
 
 // calculatr 2-2
 const makeOrder = (arr) => {
-  // TODO
+  // 1. find log ln sqrt
+  for (let i = 0; i < arr.length -1; i++){
+    if (symbol[arr[i]][1] !== 6 && symbol[arr[i+1]][1] === 5){
+      arr.splice(i + 1, 0, "op-open");
+      i++;
+    }
+  }
   return arr;
 };
 
@@ -278,6 +285,19 @@ const findHiddenMultiply = (arr) => {
     }
   }
   // console.log("add *: ", arr);
+  return arr;
+};
+
+// calculate 2
+const iterFind = (arr, findArr, add) => {
+  for (let i = 0; i < arr.length - 1; i++) {
+  let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
+  
+  if (findArr.includes(check)) {
+    arr.splice(i + 1, 0, add);
+    i++;
+  }
+}
   return arr;
 };
 
