@@ -214,7 +214,7 @@ const calculate = (exprArr) => {
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
   
-  // 2-1. find hidden multiply and and multiply
+  // 2-1. find hidden multiply and and multiply - except pi e i
   expr = findHiddenMultiply(expr);
   
   // 2-2. add parentheses for order
