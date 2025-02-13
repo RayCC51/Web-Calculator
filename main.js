@@ -218,37 +218,64 @@ const calculate = (exprArr) => {
   // exprArr = convert2String(exprArr);
   // console.log(exprArr);
   
+  let openIndexArr = [];
+  let closeIndexArr = [];
+  let startNest = false;
+  let endNest = false;
+  
+  while(true){
+  // for (let i = 0; i < 2; i++){
+    
   // 3. find all open close parentheses
-  let openIndexArr = findAllIndexes(exprArr, "op-open");
-  let closeIndexArr = findAllIndexes(exprArr, "op-close");
+  openIndexArr = findAllIndexes(exprArr, "op-open");
+  closeIndexArr = findAllIndexes(exprArr, "op-close");
   // console.log(openIndexArr);
   // console.log(closeIndexArr);
   
-  // while(true){
   // 4. find nest parentheses
-  let [startNest, endNest] = findNest(exprArr, openIndexArr, closeIndexArr);
+  [startNest, endNest] = findNest(exprArr, openIndexArr, closeIndexArr);
   
   // console.log("startNest: ", startNest);
-  if (!startNest){
+  if (typeof startNest === 'number'){
   // 5. calculate the part
   answer = partCalculate(exprArr.slice(startNest + 1, endNest));
   
   // 6. replace exprArr
-  exprArr.splice(startNest, endNest - startNest + 1, answer);
+  [exprArr, openIndexArr, closeIndexArr] = replaceArr(exprArr, openIndexArr, closeIndexArr, startNest, endNest, answer);
+  
+  // console.log("calculate nest");
+  console.log("calculating: ", convert2String(exprArr));
   }
   else{
     answer = partCalculate(exprArr);
-    // break;
+    
+    // console.log("last calculate");
+    console.log("calculating: ", convert2String(exprArr));
+    break;
   }
-  // }
+  }
   
   return answer;
 };
 
+// calculate 6
+const replaceArr = (arr, open, close, start, end, ans) => {
+  // console.log(arr, open,close, start, end, ans);
+  
+  arr.splice(start, end - start + 1, ans);
+  
+  open = open.filter(item => item !== start);
+  close = close.filter(item => item !== end);
+  
+  // console.log(arr, open, close, start, end, ans);
+  
+  return [arr, open, close];
+};
+
 // calculate 5
 const partCalculate = (arr) => {
-  console.log("calculating");
-  let answer = [];
+  // console.log("calculating");
+  let answer = ["num-pi"];
   // TODO
   return answer;  
 };
@@ -260,8 +287,10 @@ const findNest = (arr, openIndexArr, closeIndexArr) => {
   }
   
   let firstClose = closeIndexArr[0];
+  
   let previousOpen = openIndexArr.filter(item => item < firstClose);
   let lastOpen = previousOpen[previousOpen.length-1];
+  
   // console.log(convert2String(arr));
   // console.log(previousOpen);
   // console.log(lastOpen, firstClose);
