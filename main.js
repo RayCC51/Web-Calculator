@@ -291,20 +291,20 @@ const makeOrder = (arr) => {
       console.log(arr);
     }
   }
-  console.log("###### power");
+  // console.log("###### power");
   // 2-2-2. power
   for(let i = 0; i < arr.length; i++){
     if(arr[i] === "op-power"){
       let back = findClosest(arr, i, [3,4,5],1);
       let front = findClosest(arr, i, [3,4,5],-1);
       
-      console.log("find power: ", i);
-      console.log(i, front, back);
+      console.log("find power: ", i, front, back);
       
-      console.log("before add: ", arr);
+      // console.log("before add: ", arr);
       arr.splice(i + back + 1, 0, "op-close");
       arr.splice(i - front, 0, "op-open");
       i++;
+      // FIXME: 3^(3) →⁠ (3^()3)
     }
   }
   
