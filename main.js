@@ -81,7 +81,7 @@ const changeResultValue = (item) => {
     history = [...resultArr, ...resultArr2];
     resultArr = [];
     resultArr2 = [];
-    console.log("history: ", history);
+    console.log("history: ", convert2String(history));
     
     resultArr.push(...calculate([...history]));
   }
@@ -268,7 +268,7 @@ const makeOrder = (arr) => {
   // arr.unshift("op-open");
   // arr.push("op-close");
   
-  // 1. find log ln sqrt and wrap
+  // 2-2-1. find log ln sqrt and wrap
   // arr = iterFind(arr, [5,15,25,35,45,75], "op-open", autoClose);
   for (let i = 0; i < arr.length - 1; i++) {
     let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
@@ -291,17 +291,87 @@ const makeOrder = (arr) => {
       console.log(arr);
     }
   }
-  
-  // 2. power
-  let powerIndex = arr.lastIndexOf("op-power");
-  while(powerIndex > 0){
-    // todo
-    powerIndex = arr.lastIndexOf("op-power");
-    break;
+  console.log("###### power");
+  // 2-2-2. power
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] === "op-power"){
+      let back = findClosest(arr, i, [3,4,5],1);
+      let front = findClosest(arr, i, [3,4,5],-1);
+      
+      console.log("find power: ", i);
+      console.log(i, front, back);
+      
+      console.log("before add: ", arr);
+      arr.splice(i + back + 1, 0, "op-close");
+      arr.splice(i - front, 0, "op-open");
+      i++;
+    }
   }
   
   return arr;
 };
+
+// order = -1 front, 1 back
+const findClosest = (arr, pivot, match, direction) => {
+  let i = -1;
+  let start;
+  let end;
+  let step;
+  let open;
+  let close;
+  
+  // console.log("find close: ", pivot, direction);
+  
+  if (direction === 1){
+    start = pivot;
+    end = arr.length - 1;
+    step = 1;
+    open = "op-open";
+    close = "op-close";
+  }
+  else {
+    start = pivot;
+    end = 0;
+    step = -1;
+    open = "op-close";
+    close = "op-open";
+  }
+  
+  let openCount = 0;
+  
+  for (; start * step < end; start += step){
+    if(arr[start] == open){
+      openCount++;
+      continue;
+    }
+    else if (arr[start] == close){
+      if (openCount > 0){
+        openCount--;
+        continue;
+      }
+      else{
+        i = start;
+        break;
+      }
+    }
+    else if (match.includes(symbol[arr[start]][1])){
+        i = start;
+        break;
+      }
+    }
+  
+  // if there no match
+  if (i === -1){
+    if (direction === 1){
+      i = arr.length;
+    }
+    else {
+      i = 0;
+    }
+  }
+  
+  return i;
+}
 
 const autoClose = () => {
   console.log("call autoClose");
