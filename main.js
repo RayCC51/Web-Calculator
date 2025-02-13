@@ -211,17 +211,79 @@ const isNewKeyValid = (newKey) => {
 const calculate = (exprArr) => {
   let answer = "error";
   
-  // TODO
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
+  
   // 2. convert code to string
-  exprArr = exprArr.map(item => symbol[item][0]).join('');
+  // exprArr = convert2String(exprArr);
   // console.log(exprArr);
-  // 3. find nest parentheses -> calculate -> replace parentheses to result
-  // TODO
+  
+  // 3. find all open close parentheses
+  let openIndexArr = findAllIndexes(exprArr, "op-open");
+  let closeIndexArr = findAllIndexes(exprArr, "op-close");
+  // console.log(openIndexArr);
+  // console.log(closeIndexArr);
+  
+  // while(true){
+  // 4. find nest parentheses
+  let [startNest, endNest] = findNest(exprArr, openIndexArr, closeIndexArr);
+  
+  // console.log("startNest: ", startNest);
+  if (!startNest){
+  // 5. calculate the part
+  answer = partCalculate(exprArr.slice(startNest + 1, endNest));
+  
+  // 6. replace exprArr
+  exprArr.splice(startNest, endNest - startNest + 1, answer);
+  }
+  else{
+    answer = partCalculate(exprArr);
+    // break;
+  }
+  // }
   
   return answer;
-}
+};
+
+// calculate 5
+const partCalculate = (arr) => {
+  console.log("calculating");
+  let answer = "num-pi";
+  // TODO
+  return answer;  
+};
+
+// calculate 4
+const findNest = (arr, openIndexArr, closeIndexArr) => {
+  if(openIndexArr.length === 0){
+    return [false, false];
+  }
+  
+  let firstClose = closeIndexArr[0];
+  let previousOpen = openIndexArr.filter(item => item < firstClose);
+  let lastOpen = previousOpen[previousOpen.length-1];
+  // console.log(convert2String(arr));
+  // console.log(previousOpen);
+  // console.log(lastOpen, firstClose);
+  
+  return [lastOpen, firstClose];
+};
+
+// calculate 3
+const findAllIndexes = (arr, value) => {
+    const indexes = [];
+    arr.forEach((item, index) => {
+        if (item === value) {
+            indexes.push(index);
+        }
+    });
+    return indexes;
+};
+
+// calculate 2
+const convert2String = (arr) => {
+  return arr.map(item => symbol[item][0]).join('');
+};
 
 // calculate 1
 const countParentheses = (exprArr) => {
