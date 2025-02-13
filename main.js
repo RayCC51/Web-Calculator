@@ -85,8 +85,8 @@ const changeResultValue = (item) => {
     resultArr.push(...calculate([...history]));
   }
   else {
-        // if result show Error
-    if(resultArr.length > 0 && symbol[resultArr[0]][1] == 9){
+    // if result show Error
+    if (resultArr.length > 0 && symbol[resultArr[0]][1] == 9) {
       resultArr.pop();
     }
     
@@ -95,7 +95,7 @@ const changeResultValue = (item) => {
       if (newKey == "num-thousand") {
         newKey = "num-zero";
       }
-      if (newKey == "num-dot"){
+      if (newKey == "num-dot") {
         resultArr.push("num-zero");
       }
     }
@@ -109,7 +109,7 @@ const changeResultValue = (item) => {
       else {
         resultArr.push(newKey);
         
-        if(symbol[newKey][1] === 5){
+        if (symbol[newKey][1] === 5) {
           // add () after log ln sqrt
           pushCombination("op-parentheses");
         }
@@ -189,9 +189,9 @@ const isNewKeyValid = (newKey) => {
     }
     
     else if (validList.includes(checkSum)) {
-     // if (hiddenMultiplyList.includes(checkSum)) {
+      // if (hiddenMultiplyList.includes(checkSum)) {
       // parsingHiddenMultiply(newKey);
-    // }
+      // }
       return true;
     }
     // invalid, replace: +- -> -
@@ -227,36 +227,36 @@ const calculate = (exprArr) => {
   let startNest = false;
   let endNest = false;
   
-  while(true){
-  // for (let i = 0; i < 2; i++){
-  console.log("calculating: ", convert2String(exprArr));
+  while (true) {
+    // for (let i = 0; i < 2; i++){
+    console.log("calculating: ", convert2String(exprArr));
     
-  // 3. find all open close parentheses
-  openIndexArr = findAllIndexes(exprArr, "op-open");
-  closeIndexArr = findAllIndexes(exprArr, "op-close");
-  // console.log(openIndexArr);
-  // console.log(closeIndexArr);
-  
-  // 4. find nest parentheses
-  [startNest, endNest] = findNest(exprArr, openIndexArr, closeIndexArr);
-  
-  // console.log("startNest: ", startNest);
-  if (typeof startNest === 'number'){
-  // 5. calculate the part
-  answer = partCalculate(exprArr.slice(startNest + 1, endNest));
-  
-  // 6. replace exprArr
-  [exprArr, openIndexArr, closeIndexArr] = replaceArr(exprArr, openIndexArr, closeIndexArr, startNest, endNest, answer);
-  
-  // console.log("calculate nest");
-  // console.log("calculating: ", convert2String(exprArr));
-  }
-  else{
-    answer = partCalculate(exprArr);
+    // 3. find all open close parentheses
+    openIndexArr = findAllIndexes(exprArr, "op-open");
+    closeIndexArr = findAllIndexes(exprArr, "op-close");
+    // console.log(openIndexArr);
+    // console.log(closeIndexArr);
     
-    // console.log("last calculate");
-    break;
-  }
+    // 4. find nest parentheses
+    [startNest, endNest] = findNest(exprArr, openIndexArr, closeIndexArr);
+    
+    // console.log("startNest: ", startNest);
+    if (typeof startNest === 'number') {
+      // 5. calculate the part
+      answer = partCalculate(exprArr.slice(startNest + 1, endNest));
+      
+      // 6. replace exprArr
+      [exprArr, openIndexArr, closeIndexArr] = replaceArr(exprArr, openIndexArr, closeIndexArr, startNest, endNest, answer);
+      
+      // console.log("calculate nest");
+      // console.log("calculating: ", convert2String(exprArr));
+    }
+    else {
+      answer = partCalculate(exprArr);
+      
+      // console.log("last calculate");
+      break;
+    }
   }
   
   return answer;
@@ -269,27 +269,27 @@ const makeOrder = (arr) => {
   
   // 1. find log ln sqrt and wrap
   // arr = iterFind(arr, [5,15,25,35,45,75], "op-open", autoClose);
-for (let i = 0; i < arr.length - 1; i++) {
-  let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
-  
-  if (i === 0 && Math.floor(check / 10) === 5){
-    arr.unshift("op-open");
-    let firstClose = arr.indexOf("op-close");
-    arr.splice(firstClose, 0, "op-close");
-    i++;
-    console.log(arr);
-  }
-  
-  else if ([5,15,25,35,45,75].includes(check)) {
-    arr.splice(i + 1, 0, "op-open");
+  for (let i = 0; i < arr.length - 1; i++) {
+    let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
+    
+    if (i === 0 && Math.floor(check / 10) === 5) {
+      arr.unshift("op-open");
+      let firstClose = arr.indexOf("op-close");
+      arr.splice(firstClose, 0, "op-close");
+      i++;
+      console.log(arr);
+    }
+    
+    else if ([5, 15, 25, 35, 45, 75].includes(check)) {
+      arr.splice(i + 1, 0, "op-open");
       // close after log
       let afterFind = arr.slice(i);
       let firstClose = afterFind.indexOf("op-close");
-      arr.splice(i+firstClose, 0, "op-close");
-    i++;
-    console.log(arr);
+      arr.splice(i + firstClose, 0, "op-close");
+      i++;
+      console.log(arr);
+    }
   }
-}
   
   
   return arr;
@@ -301,11 +301,11 @@ const autoClose = () => {
 
 // calculate 2-1
 const findHiddenMultiply = (arr) => {
-  for (let i = 0; i < arr.length - 1; i ++){
+  for (let i = 0; i < arr.length - 1; i++) {
     let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
     
-    if(hiddenMultiplyList.includes(check)){
-      arr.splice(i+1, 0, "op-multiple");
+    if (hiddenMultiplyList.includes(check)) {
+      arr.splice(i + 1, 0, "op-multiple");
       i++;
     }
   }
@@ -316,16 +316,16 @@ const findHiddenMultiply = (arr) => {
 // calculate 2
 const iterFind = (arr, findArr, add, additionalFunc) => {
   for (let i = 0; i < arr.length - 1; i++) {
-  let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
-  
-  if (findArr.includes(check)) {
-    arr.splice(i + 1, 0, add);
-    if (typeof additionalFunc === "function"){
-      additionalFunc();
+    let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
+    
+    if (findArr.includes(check)) {
+      arr.splice(i + 1, 0, add);
+      if (typeof additionalFunc === "function") {
+        additionalFunc();
+      }
+      i++;
     }
-    i++;
   }
-}
   return arr;
 };
 
@@ -348,19 +348,19 @@ const partCalculate = (arr) => {
   // console.log("calculating");
   let answer = ["num-pi"];
   // TODO
-  return answer;  
+  return answer;
 };
 
 // calculate 4
 const findNest = (arr, openIndexArr, closeIndexArr) => {
-  if(openIndexArr.length === 0){
+  if (openIndexArr.length === 0) {
     return [false, false];
   }
   
   let firstClose = closeIndexArr[0];
   
   let previousOpen = openIndexArr.filter(item => item < firstClose);
-  let lastOpen = previousOpen[previousOpen.length-1];
+  let lastOpen = previousOpen[previousOpen.length - 1];
   
   // console.log(convert2String(arr));
   // console.log(previousOpen);
@@ -371,13 +371,13 @@ const findNest = (arr, openIndexArr, closeIndexArr) => {
 
 // calculate 3
 const findAllIndexes = (arr, value) => {
-    const indexes = [];
-    arr.forEach((item, index) => {
-        if (item === value) {
-            indexes.push(index);
-        }
-    });
-    return indexes;
+  const indexes = [];
+  arr.forEach((item, index) => {
+    if (item === value) {
+      indexes.push(index);
+    }
+  });
+  return indexes;
 };
 
 // calculate 2
@@ -392,14 +392,14 @@ const countParentheses = (exprArr) => {
   let countDiff = countOpen - countClose;
   console.log("open - close = ", countDiff);
   
-  if (countDiff > 0){
-    for (let i = 0; i < countDiff; i++){
+  if (countDiff > 0) {
+    for (let i = 0; i < countDiff; i++) {
       exprArr.push("op-close");
       console.log("+ op-close");
     }
   }
-  else if (countDiff < 0){
-    for (let i = 0; i > countDiff; i--){
+  else if (countDiff < 0) {
+    for (let i = 0; i > countDiff; i--) {
       exprArr.unshift("op-open");
       console.log("+ op-open");
     }
@@ -477,11 +477,12 @@ const setResultValue = () => {
 // backspace
 const popLastElement = () => {
   if (resultArr.length) {
-    if(resultArr.length > 1){
-    if (symbol[resultArr[resultArr.length - 1]][1] === 6 && symbol[resultArr[resultArr.length - 2]][1] === 5){
-      // if remove log( ln( √(, remove both log and open. leave close  
-      resultArr.pop();
-    }}
+    if (resultArr.length > 1) {
+      if (symbol[resultArr[resultArr.length - 1]][1] === 6 && symbol[resultArr[resultArr.length - 2]][1] === 5) {
+        // if remove log( ln( √(, remove both log and open. leave close  
+        resultArr.pop();
+      }
+    }
     resultArr.pop();
     setResultValue();
   }
