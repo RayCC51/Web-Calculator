@@ -189,9 +189,9 @@ const isNewKeyValid = (newKey) => {
     }
     
     else if (validList.includes(checkSum)) {
-     if (hiddenMultiplyList.includes(checkSum)) {
-      parsingHiddenMultiply(newKey);
-    }
+     // if (hiddenMultiplyList.includes(checkSum)) {
+      // parsingHiddenMultiply(newKey);
+    // }
       return true;
     }
     // invalid, replace: +- -> -
@@ -214,9 +214,12 @@ const calculate = (exprArr) => {
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
   
-  // 2. convert code to string
-  // exprArr = convert2String(exprArr);
-  // console.log(exprArr);
+  // 2-1. find hidden multiply and and multiply
+  expr = findHiddenMultiply(expr);
+  
+  // 2-2. add parentheses for order
+  // log ln > √ ^ > * / % > + -
+  // TODO
   
   let openIndexArr = [];
   let closeIndexArr = [];
@@ -256,6 +259,12 @@ const calculate = (exprArr) => {
   }
   
   return answer;
+};
+
+// calculate 2-1
+const findHiddenMultiply = (arr) => {
+  // TODO
+  return arr;
 };
 
 // calculate 6
