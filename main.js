@@ -219,7 +219,7 @@ const calculate = (exprArr) => {
   
   // 2-2. add parentheses for order
   // log ln > √ ^ > * / % > + -
-  // TODO
+  exprArr = makeOrder(exprArr);
   
   let openIndexArr = [];
   let closeIndexArr = [];
@@ -261,6 +261,12 @@ const calculate = (exprArr) => {
   return answer;
 };
 
+// calculatr 2-2
+const makeOrder = (arr) => {
+  // TODO
+  return arr;
+};
+
 // calculate 2-1
 const findHiddenMultiply = (arr) => {
   for (let i = 0; i < arr.length - 1; i ++){
@@ -271,7 +277,7 @@ const findHiddenMultiply = (arr) => {
       i++;
     }
   }
-  console.log("add *: ", arr);
+  // console.log("add *: ", arr);
   return arr;
 };
 
