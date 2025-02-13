@@ -215,7 +215,7 @@ const calculate = (exprArr) => {
   exprArr = countParentheses(exprArr);
   
   // 2-1. find hidden multiply and and multiply - except pi e i
-  expr = findHiddenMultiply(expr);
+  exprArr = findHiddenMultiply(exprArr);
   
   // 2-2. add parentheses for order
   // log ln > √ ^ > * / % > + -
@@ -263,7 +263,15 @@ const calculate = (exprArr) => {
 
 // calculate 2-1
 const findHiddenMultiply = (arr) => {
-  // TODO
+  for (let i = 0; i < arr.length - 1; i ++){
+    let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
+    
+    if(hiddenMultiplyList.includes(check)){
+      arr.splice(i+1, 0, "op-multiple");
+      i++;
+    }
+  }
+  console.log("add *: ", arr);
   return arr;
 };
 
