@@ -215,8 +215,8 @@ const calculate = (exprArr) => {
   exprArr = countParentheses(exprArr);
   
   // 2-1. find hidden multiply and and multiply - except pi e i
-  // exprArr = findHiddenMultiply(exprArr);
-  exprArr = iterFind(exprArr, hiddenMultiplyList, "op-multiple");
+  exprArr = findHiddenMultiply(exprArr);
+  // exprArr = iterFind(exprArr, hiddenMultiplyList, "op-multiple");
   
   // 2-2. add parentheses for order
   // log ln > √ ^ > * / % > + -
@@ -229,6 +229,7 @@ const calculate = (exprArr) => {
   
   while(true){
   // for (let i = 0; i < 2; i++){
+  console.log("calculating: ", convert2String(exprArr));
     
   // 3. find all open close parentheses
   openIndexArr = findAllIndexes(exprArr, "op-open");
@@ -248,13 +249,12 @@ const calculate = (exprArr) => {
   [exprArr, openIndexArr, closeIndexArr] = replaceArr(exprArr, openIndexArr, closeIndexArr, startNest, endNest, answer);
   
   // console.log("calculate nest");
-  console.log("calculating: ", convert2String(exprArr));
+  // console.log("calculating: ", convert2String(exprArr));
   }
   else{
     answer = partCalculate(exprArr);
     
     // console.log("last calculate");
-    console.log("calculating: ", convert2String(exprArr));
     break;
   }
   }
@@ -264,15 +264,40 @@ const calculate = (exprArr) => {
 
 // calculatr 2-2
 const makeOrder = (arr) => {
-  // 1. find log ln sqrt
-  for (let i = 0; i < arr.length -1; i++){
-    if (symbol[arr[i]][1] !== 6 && symbol[arr[i+1]][1] === 5){
-      arr.splice(i + 1, 0, "op-open");
-      i++;
-    }
+  // arr.unshift("op-open");
+  // arr.push("op-close");
+  
+  // 1. find log ln sqrt and wrap
+  // arr = iterFind(arr, [5,15,25,35,45,75], "op-open", autoClose);
+for (let i = 0; i < arr.length - 1; i++) {
+  let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
+  
+  if (i === 0 && Math.floor(check / 10) === 5){
+    arr.unshift("op-open");
+    let firstClose = arr.indexOf("op-close");
+    arr.splice(firstClose, 0, "op-close");
+    i++;
+    console.log(arr);
   }
+  
+  else if ([5,15,25,35,45,75].includes(check)) {
+    arr.splice(i + 1, 0, "op-open");
+      // close after log
+      let afterFind = arr.slice(i);
+      let firstClose = afterFind.indexOf("op-close");
+      arr.splice(i+firstClose, 0, "op-close");
+    i++;
+    console.log(arr);
+  }
+}
+  
+  
   return arr;
 };
+
+const autoClose = () => {
+  console.log("call autoClose");
+}
 
 // calculate 2-1
 const findHiddenMultiply = (arr) => {
@@ -289,12 +314,15 @@ const findHiddenMultiply = (arr) => {
 };
 
 // calculate 2
-const iterFind = (arr, findArr, add) => {
+const iterFind = (arr, findArr, add, additionalFunc) => {
   for (let i = 0; i < arr.length - 1; i++) {
   let check = symbol[arr[i]][1] * 10 + symbol[arr[i + 1]][1];
   
   if (findArr.includes(check)) {
     arr.splice(i + 1, 0, add);
+    if (typeof additionalFunc === "function"){
+      additionalFunc();
+    }
     i++;
   }
 }
