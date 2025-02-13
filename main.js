@@ -429,6 +429,10 @@ const setResultValue = () => {
 // backspace
 const popLastElement = () => {
   if (resultArr.length) {
+    if (symbol[resultArr[resultArr.length - 1]][1] === 6 && symbol[resultArr[resultArr.length - 2]][1] === 5){
+      // if remove log( ln( √(, remove both log and open. leave close  
+      resultArr.pop();
+    }
     resultArr.pop();
     setResultValue();
   }
