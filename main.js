@@ -294,8 +294,7 @@ const fixSyntax = (arr) => {
       }
     }
   }
-    // 2. remove empty ()
-  // FIXME: 1()2 →⁠ 1*2
+  // 2. remove empty ()
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === "op-open") {
       if (i === arr.length - 1) {
@@ -307,6 +306,15 @@ const fixSyntax = (arr) => {
         if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
           arr.splice(i - 1, 3);
           i -= 3;
+        }
+        // 1()2 →⁠ 1*2
+        else if(i > 0 && 
+        i < arr.length - 2 && 
+        [0,1].includes(symbol[arr[i-1]][1]) &&
+        [0,1].includes(symbol[arr[i+2]][1])
+        ){
+          arr.splice(i, 2, "op-multiple");
+          i -= 2;
         }
         else {
           arr.splice(i, 2);
