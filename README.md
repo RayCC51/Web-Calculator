@@ -20,6 +20,7 @@ Start at 2025-02-03
 - = <<
 - history
 - better UI
+- sin 1/sin sin^-1 sinh
 - ...?
 
 ### UI

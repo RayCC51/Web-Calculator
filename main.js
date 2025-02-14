@@ -278,7 +278,7 @@ const makeOrder = (arr) => {
       let firstClose = arr.indexOf("op-close");
       arr.splice(firstClose, 0, "op-close");
       i++;
-      console.log(arr);
+      console.log(convert2String(arr));
     }
     
     else if ([5, 15, 25, 35, 45, 75].includes(check)) {
@@ -288,35 +288,43 @@ const makeOrder = (arr) => {
       let firstClose = afterFind.indexOf("op-close");
       arr.splice(i + firstClose, 0, "op-close");
       i++;
-      console.log(arr);
+      console.log(convert2String(arr));
     }
   }
   // 2-2-2. power
-  arr = addParentheses(arr, "op-power", [3, 4, 5]);
+  arr = addParentheses(arr, ["op-power"], [3, 4, 5]);
   // 2-2-3. */%
+  arr = addParentheses(arr, ["op-multiple", "op-divide", "op-mod"], [3,4,5]);
+  /// 2-2-4. +-
+  arr = addParentheses(arr, ["op-plus", "op-minus"], [3,4,5]);
   
   return arr;
 };
 
 // 2-2 module
-const addParentheses = (arr, op, matchArr) => {
+const addParentheses = (arr, opArr, stopPointArr) => {
   for (let i = 0; i < arr.length; i++) {
-  if (arr[i] == op) {
-    let back = findClosest(arr, i, matchArr, 1);
-    let front = findClosest(arr, i, matchArr, -1);
+  if (opArr.includes(arr[i])) {
+    let back = findClosest(arr, i, stopPointArr, 1);
+    let front = findClosest(arr, i, stopPointArr, -1);
     
-    console.log("find", op, ": ", i, front, back);
+    if(front === 0){
+      front = -1;
+    }
     
-    arr.splice(back + 1, 0, "op-close");
-    arr.splice(front, 0, "op-open");
+    // console.log("find", arr[i], ": ", i, front, back);
+    
+    arr.splice(back, 0, "op-close");
+    arr.splice(front+1, 0, "op-open");
     i++;
+    console.log(convert2String(arr));
   }
 }
 return arr;
 };
 
 // order = -1 front, 1 back
-const findClosest = (arr, pivot, match, direction) => {
+const findClosest = (arr, pivot, stopPointArr, direction) => {
   let i = -1;
   let start;
   let end;
@@ -358,7 +366,7 @@ const findClosest = (arr, pivot, match, direction) => {
         break;
       }
     }
-    else if (match.includes(symbol[arr[start]][1]) && openCount === 0){
+    else if (stopPointArr.includes(symbol[arr[start]][1]) && openCount === 0){
         i = start;
         break;
     }
