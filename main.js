@@ -291,25 +291,28 @@ const makeOrder = (arr) => {
       console.log(arr);
     }
   }
-  // console.log("###### power");
   // 2-2-2. power
-  for(let i = 0; i < arr.length; i++){
-    if(arr[i] === "op-power"){
-      let back = findClosest(arr, i, [3,4,5],1);
-      let front = findClosest(arr, i, [3,4,5],-1);
-      
-      console.log("find power: ", i, front, back);
-      
-      // console.log("before add: ", convert2String(arr));
-      arr.splice(back + 1, 0, "op-close");
-      // console.log(back, convert2String(arr)); 
-      arr.splice(front, 0, "op-open");
-      // console.log(convert2String(arr));
-      i++;
-    }
-  }
+  arr = addParentheses(arr, "op-power", [3, 4, 5]);
+  // 2-2-3. */%
   
   return arr;
+};
+
+// 2-2 module
+const addParentheses = (arr, op, matchArr) => {
+  for (let i = 0; i < arr.length; i++) {
+  if (arr[i] == op) {
+    let back = findClosest(arr, i, matchArr, 1);
+    let front = findClosest(arr, i, matchArr, -1);
+    
+    console.log("find", op, ": ", i, front, back);
+    
+    arr.splice(back + 1, 0, "op-close");
+    arr.splice(front, 0, "op-open");
+    i++;
+  }
+}
+return arr;
 };
 
 // order = -1 front, 1 back
