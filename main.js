@@ -303,7 +303,6 @@ const makeOrder = (arr) => {
       // console.log("before add: ", convert2String(arr));
       arr.splice(back + 1, 0, "op-close");
       // console.log(back, convert2String(arr)); 
-      // FIXME: 3^(3) →⁠ (3^()3)
       arr.splice(front, 0, "op-open");
       // console.log(convert2String(arr));
       i++;
