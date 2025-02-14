@@ -212,6 +212,9 @@ const isNewKeyValid = (newKey) => {
 const calculate = (exprArr) => {
   let answer = ["error"];
   
+  // 0. fix incorrect syntax
+  exprArr = fixSyntax(exprArr);
+  
   // 1. count parentheses and make valance
   exprArr = countParentheses(exprArr);
   
@@ -263,7 +266,31 @@ const calculate = (exprArr) => {
   return answer;
 };
 
-// calculatr 2-2
+// calculate 0
+const fixSyntax = (arr) => {
+  console.log("fixing syntax...");
+  // 1. find dot without int
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] === "num-dot"){
+      if(i === 0){
+        console.log("fix syntax: dot")
+        arr.unshift("num-zero");
+        i++;
+        continue;
+      }
+      if(symbol[arr[i-1]][1] !== 0){
+        console.log("fix syntax: dot")
+        arr.splice(i, 0, "num-zero");
+        i++;
+        continue;
+      }
+    }
+  }
+  console.log("fixing complete: ", convert2String(arr));
+  return arr;
+};
+
+// calculate 2-2
 const makeOrder = (arr) => {
   // arr.unshift("op-open");
   // arr.push("op-close");
