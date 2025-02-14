@@ -294,7 +294,28 @@ const fixSyntax = (arr) => {
       }
     }
   }
-  // 2. fix operator without number
+    // 2. remove empty ()
+  // FIXME: 1()2 →⁠ 1*2
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === "op-open") {
+      if (i === arr.length - 1) {
+        arr.pop();
+        continue;
+      }
+      else if (arr[i + 1] === "op-close") {
+        // remove log() ln() sqrt()
+        if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
+          arr.splice(i - 1, 3);
+          i -= 3;
+        }
+        else {
+          arr.splice(i, 2);
+          i -= 2;
+        }
+      }
+    }
+  }
+  // 3. fix operator without number
   for (let i = 0; i < arr.length; i++) {
     if (symbol[arr[i]][1] === 3 || symbol[arr[i]][1] === 4) {
       if (i === 0) {
@@ -319,26 +340,7 @@ const fixSyntax = (arr) => {
       }
     }
   }
-  // 3. remove empty ()
-  // FIXME: 1()2 →⁠ 1*2
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "op-open") {
-      if (i === arr.length - 1) {
-        arr.pop();
-        continue;
-      }
-      else if (arr[i + 1] === "op-close") {
-        if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
-          arr.splice(i - 1, 3);
-          i -= 3;
-        }
-        else {
-          arr.splice(i, 2);
-          i -= 2;
-        }
-      }
-    }
-  }
+
   
   console.log("fixing complete: ", convert2String(arr));
   return arr;
