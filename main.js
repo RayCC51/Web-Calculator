@@ -269,7 +269,7 @@ const calculate = (exprArr) => {
 // calculate 0
 const fixSyntax = (arr) => {
   console.log("fixing syntax...");
-  // 1. find dot without int
+  // 1. find dot without num
   for(let i = 0; i < arr.length; i++){
     if(arr[i] === "num-dot"){
       if(i === 0){
@@ -278,11 +278,19 @@ const fixSyntax = (arr) => {
         i++;
         continue;
       }
+      // dot without int
       if(symbol[arr[i-1]][1] !== 0){
         console.log("fix syntax: dot")
         arr.splice(i, 0, "num-zero");
         i++;
         continue;
+      }
+      // dot without float
+      if(i === arr.length - 1){
+        arr.push("num-zero");
+      }
+      if(symbol[arr[i+1]][1] !== 0){
+        arr.splice(i+1,0,"num-zero");
       }
     }
   }
@@ -507,7 +515,7 @@ const countParentheses = (exprArr) => {
   let countOpen = exprArr.filter(item => item === "op-open").length;
   let countClose = exprArr.filter(item => item === "op-close").length;
   let countDiff = countOpen - countClose;
-  console.log("open - close = ", countDiff);
+  console.log("parentheses: open - close = ", countDiff);
   
   if (countDiff > 0) {
     for (let i = 0; i < countDiff; i++) {
