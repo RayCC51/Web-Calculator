@@ -150,7 +150,7 @@ const pushCombination = (combinationOrigin) => {
   }
   else if (combinationOrigin == "op-parentheses") {
     resultArr.push("op-open");
-    resultArr2.push("op-close");
+    resultArr2.unshift("op-close");
   }
 };
 
