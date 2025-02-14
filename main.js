@@ -270,53 +270,73 @@ const calculate = (exprArr) => {
 const fixSyntax = (arr) => {
   console.log("fixing syntax...");
   // 1. fix dot without num
-  for(let i = 0; i < arr.length; i++){
-    if(arr[i] === "num-dot"){
-      if(i === 0){
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === "num-dot") {
+      if (i === 0) {
         console.log("fix syntax: dot")
         arr.unshift("num-zero");
         i++;
         continue;
       }
       // dot without int
-      if(symbol[arr[i-1]][1] !== 0){
+      if (symbol[arr[i - 1]][1] !== 0) {
         console.log("fix syntax: dot")
         arr.splice(i, 0, "num-zero");
         i++;
         continue;
       }
       // dot without float
-      if(i === arr.length - 1){
+      if (i === arr.length - 1) {
         arr.push("num-zero");
       }
-      if(symbol[arr[i+1]][1] !== 0){
-        arr.splice(i+1,0,"num-zero");
+      if (symbol[arr[i + 1]][1] !== 0) {
+        arr.splice(i + 1, 0, "num-zero");
       }
     }
   }
   // 2. fix operator without number
-  for (let i = 0; i < arr.length; i++){
-    if (symbol[arr[i]][1] === 3 || symbol[arr[i]][1] === 4){
-      if (i === 0){
+  for (let i = 0; i < arr.length; i++) {
+    if (symbol[arr[i]][1] === 3 || symbol[arr[i]][1] === 4) {
+      if (i === 0) {
         if (arr[i] === "op-minus") {
-  continue;
-}
+          continue;
+        }
         arr.shift();
         continue;
       }
-      else if (i === arr.length - 1){
+      else if (i === arr.length - 1) {
         arr.pop()
         continue;
       }
-      if(arr[i -1] === "op-open"){
-        if(arr[i] === "op-minus"){
+      if (arr[i - 1] === "op-open") {
+        if (arr[i] === "op-minus") {
           continue;
         }
-        arr.splice(i,1);
-      }
-      if(arr[i + 1] === "op-close"){
         arr.splice(i, 1);
       }
+      if (arr[i + 1] === "op-close") {
+        arr.splice(i, 1);
+      }
+    }
+  }
+  // 3. remove empty ()
+  // FIXME: 1()2 →⁠ 1*2
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === "op-open") {
+      if (i === arr.length - 1) {
+        arr.pop();
+        continue;
+      }
+      else if (arr[i + 1] === "op-close") {
+        if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
+          arr.splice(i - 1, 3);
+          i -= 3;
+        }
+      else {
+        arr.splice(i, 2);
+        i -= 2;
+      }
+    }
     }
   }
   
@@ -355,9 +375,9 @@ const makeOrder = (arr) => {
   // 2-2-2. power
   arr = addParentheses(arr, ["op-power"], [3, 4, 5]);
   // 2-2-3. */%
-  arr = addParentheses(arr, ["op-multiple", "op-divide", "op-mod"], [3,4,5]);
+  arr = addParentheses(arr, ["op-multiple", "op-divide", "op-mod"], [3, 4, 5]);
   /// 2-2-4. +-
-  arr = addParentheses(arr, ["op-plus", "op-minus"], [3,4,5]);
+  arr = addParentheses(arr, ["op-plus", "op-minus"], [3, 4, 5]);
   
   return arr;
 };
@@ -365,23 +385,23 @@ const makeOrder = (arr) => {
 // 2-2 module
 const addParentheses = (arr, opArr, stopPointArr) => {
   for (let i = 0; i < arr.length; i++) {
-  if (opArr.includes(arr[i])) {
-    let back = findClosest(arr, i, stopPointArr, 1);
-    let front = findClosest(arr, i, stopPointArr, -1);
-    
-    if(front === 0){
-      front = -1;
+    if (opArr.includes(arr[i])) {
+      let back = findClosest(arr, i, stopPointArr, 1);
+      let front = findClosest(arr, i, stopPointArr, -1);
+      
+      if (front === 0) {
+        front = -1;
+      }
+      
+      // console.log("find", arr[i], ": ", i, front, back);
+      
+      arr.splice(back, 0, "op-close");
+      arr.splice(front + 1, 0, "op-open");
+      i++;
+      console.log(convert2String(arr));
     }
-    
-    // console.log("find", arr[i], ": ", i, front, back);
-    
-    arr.splice(back, 0, "op-close");
-    arr.splice(front+1, 0, "op-open");
-    i++;
-    console.log(convert2String(arr));
   }
-}
-return arr;
+  return arr;
 };
 
 // order = -1 front, 1 back
@@ -395,7 +415,7 @@ const findClosest = (arr, pivot, stopPointArr, direction) => {
   
   // console.log("find close: ", pivot, direction);
   
-  if (direction === 1){
+  if (direction === 1) {
     start = pivot + 1;
     end = arr.length - 1;
     step = 1;
@@ -412,30 +432,30 @@ const findClosest = (arr, pivot, stopPointArr, direction) => {
   
   let openCount = 0;
   
-  for (; start * step < end; start += step){
-    if(arr[start] == open){
+  for (; start * step < end; start += step) {
+    if (arr[start] == open) {
       openCount++;
       continue;
     }
-    else if (arr[start] == close){
-      if (openCount > 0){
+    else if (arr[start] == close) {
+      if (openCount > 0) {
         openCount--;
         continue;
       }
-      else{
+      else {
         i = start;
         break;
       }
     }
-    else if (stopPointArr.includes(symbol[arr[start]][1]) && openCount === 0){
-        i = start;
-        break;
+    else if (stopPointArr.includes(symbol[arr[start]][1]) && openCount === 0) {
+      i = start;
+      break;
     }
   }
   
   // if there no match
-  if (i === -1){
-    if (direction === 1){
+  if (i === -1) {
+    if (direction === 1) {
       i = arr.length;
     }
     else {
