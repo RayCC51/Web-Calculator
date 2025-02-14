@@ -476,10 +476,6 @@ const findClosest = (arr, pivot, stopPointArr, direction) => {
   return i;
 }
 
-const autoClose = () => {
-  console.log("call autoClose");
-}
-
 // calculate 2-1
 const findHiddenMultiply = (arr) => {
   for (let i = 0; i < arr.length - 1; i++) {
@@ -514,7 +510,7 @@ const iterFind = (arr, findArr, add, additionalFunc) => {
 const replaceArr = (arr, open, close, start, end, ans) => {
   // console.log(arr, open,close, start, end, ans);
   
-  arr.splice(start, end - start + 1, ans);
+  arr.splice(start, end - start + 1, ...ans);
   
   open = open.filter(item => item !== start);
   close = close.filter(item => item !== end);
@@ -526,9 +522,46 @@ const replaceArr = (arr, open, close, start, end, ans) => {
 
 // calculate 5
 const partCalculate = (arr) => {
-  // console.log("calculating");
+  // error
+  let error = arr.filter(item => symbol[item][1] === 9);
+  if(error.length > 0){
+    return error;
+  }
+  
+  console.log(arr);
   let answer = ["num-pi"];
+  
+  let head = [];
+  let op = [];
+  let tail = [];
+  let isBeforeOp = true;
+  for (let i = 0; i < arr.length; i++){
+    if (symbol[arr[i]][1] === 0 || symbol[arr[i]][1] === 1){
+      if(isBeforeOp){
+        head.push(arr[i]);
+      }
+      else{
+        tail.push(arr[i]);
+      }
+    }
+    else{
+      op.push(arr[i]);
+      isBeforeOp = false;
+    }
+  }
+  // console.log(head);
+  // console.log(op);
+  // console.log(tail);
+  if(op.length > 1){
+    console.log("2 operator in 1 parentheses");
+    return ["error"];
+  }
+  
   // TODO
+  
+  // FIXME: 2pi2 →⁠2*2*pi
+  // arr == 1, no op tail
+  // 1+pi
   return answer;
 };
 
