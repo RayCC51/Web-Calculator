@@ -268,7 +268,7 @@ const calculate = (exprArr) => {
 
 // calculate 0
 const fixSyntax = (arr) => {
-  console.log("fixing syntax...");
+  // console.log("fixing syntax...");
   // 1. fix dot without num
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === "num-dot") {
@@ -308,11 +308,9 @@ const fixSyntax = (arr) => {
           i -= 3;
         }
         // 1()2 →⁠ 1*2
-        else if(i > 0 && 
-        i < arr.length - 2 && 
-        [0,1].includes(symbol[arr[i-1]][1]) &&
-        [0,1].includes(symbol[arr[i+2]][1])
-        ){
+        else if (i > 0 &&
+          i < arr.length - 2 && [0, 1].includes(symbol[arr[i - 1]][1]) && [0, 1].includes(symbol[arr[i + 2]][1])
+        ) {
           arr.splice(i, 2, "op-multiple");
           i -= 2;
         }
@@ -348,7 +346,7 @@ const fixSyntax = (arr) => {
       }
     }
   }
-
+  
   
   console.log("fixing complete: ", convert2String(arr));
   return arr;
@@ -522,29 +520,30 @@ const replaceArr = (arr, open, close, start, end, ans) => {
 
 // calculate 5
 const partCalculate = (arr) => {
-  // error
+  // if arr has error
   let error = arr.filter(item => symbol[item][1] === 9);
-  if(error.length > 0){
+  if (error.length > 0) {
     return error;
   }
   
-  console.log(arr);
+  console.log(convert2String(arr), " = ");
   let answer = ["num-pi"];
   
   let head = [];
   let op = [];
   let tail = [];
   let isBeforeOp = true;
-  for (let i = 0; i < arr.length; i++){
-    if (symbol[arr[i]][1] === 0 || symbol[arr[i]][1] === 1){
-      if(isBeforeOp){
+  // seperate operator
+  for (let i = 0; i < arr.length; i++) {
+    if (symbol[arr[i]][1] === 0 || symbol[arr[i]][1] === 1) {
+      if (isBeforeOp) {
         head.push(arr[i]);
       }
-      else{
+      else {
         tail.push(arr[i]);
       }
     }
-    else{
+    else {
       op.push(arr[i]);
       isBeforeOp = false;
     }
@@ -552,17 +551,59 @@ const partCalculate = (arr) => {
   // console.log(head);
   // console.log(op);
   // console.log(tail);
-  if(op.length > 1){
-    console.log("2 operator in 1 parentheses");
+  if (op.length > 1) {
+    console.log("ERROR: 2 operator in 1 parentheses");
     return ["error"];
   }
   
   // TODO
+  // 1+1, 1+pi, 1*pi, log1
+  // log1
+  if (["op-log", "op-ln", "op-root"].includes(...op)) {
+    if (head.length !== 0) {
+      console.log("ERROR: something is in front of log ln root");
+      return ["error"];
+    }
+    // TODO: calculate log ln root
+  }
   
-  // FIXME: 2pi2 →⁠2*2*pi
-  // arr == 1, no op tail
-  // 1+pi
+  // TODO: arr has only nunber, not op tail
+  // TODO: need error handling
   return answer;
+};
+
+// arrange number and pi e i
+// do not convert pi e i to number
+// FIXME: 1+pi
+const onePi = (arr) => {
+  // find pi e i
+  let piei = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (["num-pi", "num-e", "num-i"].includes(arr[i])) {
+      piei.push(arr[i]);
+      arr.splice(i, 1, "op-multiple");
+    }
+  }
+  let numbers = convert2String(arr).split("*");
+  try {
+    let product = numbers.map(Number).reduce((acc, curr) => acc * curr, 1);
+    if (!isFinite(product)) {
+      throw new Error("overflow or underflow");
+    }
+    // TODO: use convert2Symbol, sort piei, append piei
+  }
+  catch (e) {
+    console.log("ERROR: ", e);
+    return ["error-over"];
+  }
+  return arr;
+};
+
+const convert2Symbol = (str) => {
+  let symbolArr = [];
+  symbolArr = str.split("");
+  // TODO: convert char to symbol code
+  return symbolArr
 };
 
 // calculate 4
@@ -639,7 +680,7 @@ const isZeroDotValid = (newKey) => {
   return true;
 }
 
-// find a set of numbers
+// find a set of numbers for dot
 // (47)log48-292 => 292
 // start at end point
 const findNumberSet = (arr) => {
