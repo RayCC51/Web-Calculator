@@ -300,11 +300,13 @@ const makeOrder = (arr) => {
       
       console.log("find power: ", i, front, back);
       
-      // console.log("before add: ", arr);
-      arr.splice(i + back + 1, 0, "op-close");
-      arr.splice(i - front, 0, "op-open");
-      i++;
+      // console.log("before add: ", convert2String(arr));
+      arr.splice(back + 1, 0, "op-close");
+      // console.log(back, convert2String(arr)); 
       // FIXME: 3^(3) →⁠ (3^()3)
+      arr.splice(front, 0, "op-open");
+      // console.log(convert2String(arr));
+      i++;
     }
   }
   
@@ -323,14 +325,14 @@ const findClosest = (arr, pivot, match, direction) => {
   // console.log("find close: ", pivot, direction);
   
   if (direction === 1){
-    start = pivot;
+    start = pivot + 1;
     end = arr.length - 1;
     step = 1;
     open = "op-open";
     close = "op-close";
   }
   else {
-    start = pivot;
+    start = pivot - 1;
     end = 0;
     step = -1;
     open = "op-close";
@@ -354,11 +356,11 @@ const findClosest = (arr, pivot, match, direction) => {
         break;
       }
     }
-    else if (match.includes(symbol[arr[start]][1])){
+    else if (match.includes(symbol[arr[start]][1]) && openCount === 0){
         i = start;
         break;
-      }
     }
+  }
   
   // if there no match
   if (i === -1){
