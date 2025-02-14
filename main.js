@@ -332,11 +332,11 @@ const fixSyntax = (arr) => {
           arr.splice(i - 1, 3);
           i -= 3;
         }
-      else {
-        arr.splice(i, 2);
-        i -= 2;
+        else {
+          arr.splice(i, 2);
+          i -= 2;
+        }
       }
-    }
     }
   }
   
