@@ -648,35 +648,38 @@ const sqrt2power = (arr) => {
   console.log("start sqrt2power");
   let i = arr.indexOf("op-root");
   let count = 0;
-  let temp = 5;
-  while (temp > 0) {
-    temp--;
-    console.log(i);
+  while (i > 0) {
+    console.log("sqrt index: ", i);
+    count = 0;
     // TODO sqrt is not changed
     if (arr[i + 1] === "op-open") {
       // find parentheses
       for (let j = i; j < arr.length; j++) {
+          console.log(j, arr[j]);
         if (arr[j] === "op-open") {
           count++;
+          console.log("find open, ", count);
         } else if (arr[j] === "op-close") {
-          if (count > 0) {
+            
+          if (count > 1) {
             count--;
           } else {
+              console.log("replace sqrt to power");
             // remove sqrt and add ^0.5
-            arr.splice(j + 1, 0, "op-power", "num-zero", "num-point", "num-five");
+            arr.splice(j + 1, 0, "op-power", "num-zero", "num-dot", "num-five");
             arr.splice(i, 1);
-            i--;
             break;
           }
         }
       }
     } else {
+        console.log("Sqrt does not have open parentheses");
       return ["error-syntax"];
     }
     
     i = arr.indexOf("op-root");
   }
-  
+  console.log("sqrt to power: ", convert2String(arr));
   return arr;
 };
 
