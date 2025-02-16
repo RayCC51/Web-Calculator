@@ -215,8 +215,11 @@ const calculate = (exprArr) => {
   // 0. fix incorrect syntax
   exprArr = fixSyntax(exprArr);
   
-  // 1. count parentheses and make valance
+  // 1. count parentheses and open or close
   exprArr = countParentheses(exprArr);
+  
+  // 1-2. change sqrt to power
+  exprArr = sqrt2power(exprArr);
   
   // 2-1. find hidden multiply and and multiply - except pi e i
   exprArr = findHiddenMultiply(exprArr);
@@ -558,7 +561,7 @@ const partCalculate = (arr) => {
   
   // TODO
   // 1+1, 1+pi, 1*pi, log1
-  // log1
+  // log: no head
   if (["op-log", "op-ln", "op-root"].includes(...op)) {
     if (head.length !== 0) {
       console.log("ERROR: something is in front of log ln root");
@@ -638,6 +641,38 @@ const findAllIndexes = (arr, value) => {
 // calculate 2
 const convert2String = (arr) => {
   return arr.map(item => symbol[item][0]).join('');
+};
+
+// calculate 1-2
+const sqrt2power = (arr) => {
+  let i = arr.indexOf("op-root");
+  let count = 0;
+  while(i > 0){
+    if(arr[i+1] === "op-open"){
+      // find parentheses
+      for(let j = i; j < arr.length; j++){
+        if(arr[j] === "op-open"){
+          count++;
+        } else if (arr[j] === "op-close"){
+          if (count > 0){
+            count--;
+          } elss{
+            // remove sqrt and add ^0.5
+            arr.splice(j+1, 0, "op-power", "num-zero", "num-point", "num-five");
+            arr.splice(i, 1);
+            i--;
+            break;
+          }
+        }
+      }
+    } else{
+      return ["error-syntax"];
+    }
+    
+    i = arr.indexOf("op-root");
+  }
+  
+  return arr;
 };
 
 // calculate 1
