@@ -4,11 +4,11 @@ self.addEventListener('install', (event) => {
         caches.open('v1').then((cache) => {
             return cache.addAll([
                 '/',
-                '/index.html',
-                '/calculator-128.png',
-                '/calculator-512.png',
-                '/main.js',
-                '/style.css'
+                'index.html',
+                'calculator-128.png',
+                'calculator-512.png',
+                'main.js',
+                'style.css'
             ]);
         })
     );
