@@ -647,25 +647,25 @@ const convert2String = (arr) => {
 const sqrt2power = (arr) => {
   let i = arr.indexOf("op-root");
   let count = 0;
-  while(i > 0){
-    if(arr[i+1] === "op-open"){
+  while (i > 0) {
+    if (arr[i + 1] === "op-open") {
       // find parentheses
-      for(let j = i; j < arr.length; j++){
-        if(arr[j] === "op-open"){
+      for (let j = i; j < arr.length; j++) {
+        if (arr[j] === "op-open") {
           count++;
-        } else if (arr[j] === "op-close"){
-          if (count > 0){
+        } else if (arr[j] === "op-close") {
+          if (count > 0) {
             count--;
-          } elss{
+          } else {
             // remove sqrt and add ^0.5
-            arr.splice(j+1, 0, "op-power", "num-zero", "num-point", "num-five");
+            arr.splice(j + 1, 0, "op-power", "num-zero", "num-point", "num-five");
             arr.splice(i, 1);
             i--;
             break;
           }
         }
       }
-    } else{
+    } else {
       return ["error-syntax"];
     }
     
