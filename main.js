@@ -645,9 +645,14 @@ const convert2String = (arr) => {
 
 // calculate 1-2
 const sqrt2power = (arr) => {
+  console.log("start sqrt2power");
   let i = arr.indexOf("op-root");
   let count = 0;
-  while (i > 0) {
+  let temp = 5;
+  while (temp > 0) {
+    temp--;
+    console.log(i);
+    // TODO sqrt is not changed
     if (arr[i + 1] === "op-open") {
       // find parentheses
       for (let j = i; j < arr.length; j++) {
