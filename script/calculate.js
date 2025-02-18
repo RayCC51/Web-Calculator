@@ -140,8 +140,7 @@ const fixSyntax = (arr) => {
     }
   }
   
-  
-  console.log("fixing complete: ", convert2String(arr));
+  console.log("syntax fixed: ", convert2String(arr));
   return arr;
 };
 
@@ -428,7 +427,17 @@ const convert2String = (arr) => {
 };
 
 const convert2Symbol = (str) => {
-  const strArr = str.split("");
+  // change log -> g, ln -> n
+  let changeLogStr = str.replace(/ln/g, 'n').replace(/log/g, 'g');
+  let strArr = changeLogStr.split("");
+  strArr = strArr.map(word => {
+    if (word === 'n') {
+      return 'ln';
+    } else if (word === 'g') {
+      return 'log';
+    }
+    return word;
+  });
   
   const converted = [];
   strArr.forEach(item => {
