@@ -313,13 +313,16 @@ const replaceArr = (arr, open, close, start, end, ans) => {
 // calculate 5
 const partCalculate = (arr) => {
   // if arr has error
-  let error = arr.filter(item => symbol[item][1] === 9);
+  const error = arr.filter(item => symbol[item][1] === 9);
   if (error.length > 0) {
     return error;
   }
   
-  console.log(convert2String(arr), " = ");
-  let answer = ["num-pi"];
+  // let answer = ["num-pi"];
+  let answer = ["cal-open","num-pi", "cal-close"];
+
+  // split number and operatir
+  // const str = convert2String(arr);
   
   let head = [];
   let op = [];
@@ -327,7 +330,8 @@ const partCalculate = (arr) => {
   let isBeforeOp = true;
   // seperate operator
   for (let i = 0; i < arr.length; i++) {
-    if (symbol[arr[i]][1] === 0 || symbol[arr[i]][1] === 1) {
+    // not number, dot, pi, calculate symbol
+    if (symbol[arr[i]][1] === 0 || symbol[arr[i]][1] === 1 || symbol[arr[i]][1] === 2 || symbol[arr[i]][1] === "x") {
       if (isBeforeOp) {
         head.push(arr[i]);
       }
@@ -340,14 +344,70 @@ const partCalculate = (arr) => {
       isBeforeOp = false;
     }
   }
-  // console.log(head);
-  // console.log(op);
-  // console.log(tail);
+  
+  console.log(head, op, tail);
+  
+  // operator length should be 1 or 0
   if (op.length > 1) {
     console.log("ERROR: 2 operator in 1 parentheses");
-    return ["error"];
+    return ["error-syntax"];
   }
-  // FIXME: (1+pi)*(1*pi)
+  
+  if (head.length !== 0 && op.length === 0 && tail.length === 0){
+    // no op, tail: just number or 1+pi or 1pi
+    answer = head;
+  } else if (head.length === 0){
+    // no head: log ln -1
+    if (op[0] === "op-minus"){
+      answer = ["cal-minus", ...tail];
+    }
+    else if (op[0] === "op-log"){
+      if(isPolynomial(tail)){
+        // TODO: log(a+b)
+      answer = ["cal-log", ... tail];
+      }
+      else{
+        let num = Number(convert2String(tail));
+        if(num === NaN){
+          return ["error-NaN"];
+        }
+        else if (num <= 0){
+          return ["error-log"];
+        }
+        else{
+          answer = convert2Symbol(truncate(Math.log10(num)).toString());
+        }
+      }
+    }
+    else if (op[0] === "op-ln"){
+      if(isPolynomial(tail)){
+      // TODO: ln(a+b)
+      answer = ["cal-ln", ...tail];
+      }
+      else{
+        let num = Number(convert2String(tail));
+        if(num === NaN){
+          return ["error-NaN"];
+        }
+        else if (num <= 0){
+          return ["error-log"];
+        }
+        else{
+          answer = convert2Symbol(truncate(Math.log(num)).toString());
+        }
+      }
+    }
+    else{
+      console.log("No head with op: ", op[0]);
+      return ["error-syntax"];
+    }
+  }
+  else if (head.length !== 0 && op.length !== 0 && tail.length !== 0){
+    // todo: +-*/%^
+  }
+  else{
+    return ["error-syntax"];
+  }
   
   // TODO
   // 1+1, 1+pi, 1*pi, log1
@@ -362,7 +422,24 @@ const partCalculate = (arr) => {
   
   // TODO: arr has only nunber, not op tail
   // TODO: need error handling
+  
+  console.log(convert2String(arr), " = ", convert2String(answer));
+  // console.log("answer is polynomial: ", isPolynomial(answer));
+  
   return answer;
+};
+
+// truncate after 5 decimal places
+const truncate = (num) => {
+  return Math.floor(num * 1e5) / 1e5;
+}
+
+// find 1+pi, 1pi...
+const isPolynomial = (arr) => {
+  if(arr.filter(item => symbol[item][1] === 1).length === 0){
+    return false;
+  }
+  return true;
 };
 
 // arrange number and pi e i
@@ -456,22 +533,21 @@ const sqrt2power = (arr) => {
   let i = arr.indexOf("op-root");
   let count = 0;
   while (i > 0) {
-    console.log("sqrt index: ", i);
+    // console.log("sqrt index: ", i);
     count = 0;
-    // TODO sqrt is not changed
     if (arr[i + 1] === "op-open") {
       // find parentheses
       for (let j = i; j < arr.length; j++) {
-        console.log(j, arr[j]);
+        // console.log(j, arr[j]);
         if (arr[j] === "op-open") {
           count++;
-          console.log("find open, ", count);
+          // console.log("find open, ", count);
         } else if (arr[j] === "op-close") {
           
           if (count > 1) {
             count--;
           } else {
-            console.log("replace sqrt to power");
+            // console.log("replace sqrt to power");
             // remove sqrt and add ^0.5
             arr.splice(j + 1, 0, "op-power", "num-zero", "num-dot", "num-five");
             arr.splice(i, 1);
@@ -486,7 +562,7 @@ const sqrt2power = (arr) => {
     
     i = arr.indexOf("op-root");
   }
-  // console.log("sqrt to power: ", convert2String(arr));
+  console.log("sqrt to power: ", convert2String(arr));
   return arr;
 };
 
