@@ -345,7 +345,7 @@ const partCalculate = (arr) => {
     }
   }
   
-  console.log(head, op, tail);
+  // console.log(head, op, tail);
   
   // operator length should be 1 or 0
   if (op.length > 1) {
@@ -415,7 +415,7 @@ let tailNum = Number(convert2String(tail));
         // power with positive
         
         if (head[0] !== "cal-minus") {
-          console.log("^^^");
+          // console.log("^^^");
           // let headNum = Number(convert2String(head));
           // let tailNum = Number(convert2String(tail));
           // answer = convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString());
@@ -457,9 +457,21 @@ let tailNum = Number(convert2String(tail));
         }
         
       }
-      // +* / -
+      // +*  -
       else {
-        
+        if(op[0] === "op-multiple"){
+          answer = calculateAnswer(headNum*tailNum);
+        }
+        else if(op[0] === "op-plus"){
+          answer = calculateAnswer(headNum+tailNum);
+        }
+        else if(op[0] === "op-minus"){
+          answer = calculateAnswer(headNum-tailNum);
+        }
+        else {
+          console.log("Invaild operator: ", op[0]);
+          return ["error"];
+        }
       }
       
     }
@@ -590,7 +602,7 @@ const sqrt2power = (arr) => {
   // console.log("start sqrt2power");
   let i = arr.indexOf("op-root");
   let count = 0;
-  while (i > 0) {
+  while (i >= 0) {
     // console.log("sqrt index: ", i);
     count = 0;
     if (arr[i + 1] === "op-open") {
