@@ -319,8 +319,8 @@ const partCalculate = (arr) => {
   }
   
   // let answer = ["num-pi"];
-  let answer = ["cal-open","num-pi", "cal-close"];
-
+  let answer = ["cal-open", "num-pi", "cal-close"];
+  
   // split number and operatir
   // const str = convert2String(arr);
   
@@ -352,82 +352,140 @@ const partCalculate = (arr) => {
     console.log("ERROR: 2 operator in 1 parentheses");
     return ["error-syntax"];
   }
-  
-  if (head.length !== 0 && op.length === 0 && tail.length === 0){
+  if (head.length !== 0 && op.length === 0 && tail.length === 0) {
     // no op, tail: just number or 1+pi or 1pi
     answer = head;
-  } else if (head.length === 0){
+  } else if (head.length === 0) {
     // no head: log ln -1
-    if (op[0] === "op-minus"){
+    if (op[0] === "op-minus") {
       answer = ["cal-minus", ...tail];
     }
-    else if (op[0] === "op-log"){
-      if(isPolynomial(tail)){
+    else if (op[0] === "op-log") {
+      if (isPolynomial(tail)) {
         // TODO: log(a+b)
-      answer = ["cal-log", ... tail];
+        answer = ["cal-log", ...tail];
       }
-      else{
+      else {
         let num = Number(convert2String(tail));
-        if(num === NaN){
+        if (num === NaN) {
           return ["error-NaN"];
         }
-        else if (num <= 0){
+        else if (num <= 0) {
           return ["error-log"];
         }
-        else{
+        else {
           answer = convert2Symbol(truncate(Math.log10(num)).toString());
         }
       }
     }
-    else if (op[0] === "op-ln"){
-      if(isPolynomial(tail)){
-      // TODO: ln(a+b)
-      answer = ["cal-ln", ...tail];
+    else if (op[0] === "op-ln") {
+      if (isPolynomial(tail)) {
+        // TODO: ln(a+b)
+        answer = ["cal-ln", ...tail];
       }
-      else{
+      else {
         let num = Number(convert2String(tail));
-        if(num === NaN){
+        if (num === NaN) {
           return ["error-NaN"];
         }
-        else if (num <= 0){
+        else if (num <= 0) {
           return ["error-log"];
         }
-        else{
+        else {
           answer = convert2Symbol(truncate(Math.log(num)).toString());
         }
       }
     }
-    else{
+    else {
       console.log("No head with op: ", op[0]);
       return ["error-syntax"];
     }
   }
-  else if (head.length !== 0 && op.length !== 0 && tail.length !== 0){
-    // todo: +-*/%^
+  else if (head.length !== 0 && op.length !== 0 && tail.length !== 0) {
+    // + - * / ^ %
+    let headNum = Number(convert2String(head));
+let tailNum = Number(convert2String(tail));
+    
+    // easy way. without pi e i
+    if (!isPolynomial(head) && !isPolynomial(tail)) {
+      // console.log("It does not contain e π i");
+  
+      // ^
+      if (op[0] === "op-power") {
+        // power with positive
+        
+        if (head[0] !== "cal-minus") {
+          console.log("^^^");
+          // let headNum = Number(convert2String(head));
+          // let tailNum = Number(convert2String(tail));
+          // answer = convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString());
+          answer = calculateAnswer(Math.pow(headNum, tailNum));
+        }
+        else {
+          // power with negative
+          // let headNum = Number(convert2String(head.slice(1)));
+          let headNumPositive = headNum.slice(1);
+          // let tailNum = Number(convert2String(tail));
+          // i^tail = e^iπtail
+          let complex = ["num-e", "cal-power", "cal-open", "num-i", "cal-multiple", "num-pi", "cal-multiple", ...tail ];
+          // answer = [...convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString()), "op-multiple", ...complex];
+          answer = [...calculateAnswer(Math.pow(headNumPositive, tailNum)), "op-multiple", ...complex];
+          
+        }
+      }
+      // % / 
+      else if (op[0] === "op-mod" || op[0] === "op-divide") {
+
+        if(tail.length === 1 && tail[0] === "num-zero")
+        {
+          // zero division / mod error
+          return ["error-zero"];
+        }
+        else{
+          // let headNum = Number(convert2String(head));
+          // let tailNum = Number(convert2String(tail));
+        
+          // divide
+          if (op[0] === "op-divide"){
+            answer = calculateAnswer(headNum/tailNum);
+          }
+          // mod
+          else{
+            answer = calculateAnswer(headNum%tailNum);
+          }
+          
+        }
+        
+      }
+      // +* / -
+      else {
+        
+      }
+      
+    }
+    else {
+      // TODO: polynomial +-* /^%
+      // console.log("It contain eπi");
+      // 1+1, 1+pi, 1*pi, log1
+    }
   }
-  else{
+  else {
     return ["error-syntax"];
   }
-  
-  // TODO
-  // 1+1, 1+pi, 1*pi, log1
-  // log: no head
-  if (["op-log", "op-ln", "op-root"].includes(...op)) {
-    if (head.length !== 0) {
-      console.log("ERROR: something is in front of log ln root");
-      return ["error"];
-    }
-    // TODO: calculate log ln root
-  }
-  
-  // TODO: arr has only nunber, not op tail
+
   // TODO: need error handling
+  // TODO: need handle calculate symbol
   
   console.log(convert2String(arr), " = ", convert2String(answer));
   // console.log("answer is polynomial: ", isPolynomial(answer));
   
   return answer;
 };
+
+// 
+const calculateAnswer = (num) => {
+  return convert2Symbol(truncate(num).toString());
+}
 
 // truncate after 5 decimal places
 const truncate = (num) => {
@@ -436,7 +494,7 @@ const truncate = (num) => {
 
 // find 1+pi, 1pi...
 const isPolynomial = (arr) => {
-  if(arr.filter(item => symbol[item][1] === 1).length === 0){
+  if (arr.filter(item => symbol[item][1] === 1).length === 0) {
     return false;
   }
   return true;
