@@ -174,7 +174,6 @@ const parsingHiddenMultiply = (key) => {
 const setResultValue = () => {
   resultArr2.unshift("space");
   
-  let temp = [];
   let unionResult = [...resultArr, ...resultArr2];
   /*
   for (let item of unionResult) {
@@ -182,7 +181,15 @@ const setResultValue = () => {
     temp.push(symbol[item][0]);
   }
   */
-  temp = unionResult.map(item => symbol[item][0]);
+  let changeCalOp = unionResult.map(item => {
+    if(symbol[item][1] === "x"){
+      return symbol[item][2];
+    }
+    return item;
+  });
+  
+  // let temp = unionResult.map(item => symbol[item][0]);
+  let temp = changeCalOp.map(item => symbol[item][0]);
   
   // resultBox.textContent = temp.join('');
   let spaceSymbol = symbol["space"][0];
