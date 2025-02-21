@@ -352,6 +352,13 @@ const partCalculate = (arr) => {
     console.log("ERROR: 2 operator in 1 parentheses");
     return ["error-syntax"];
   }
+  else if(head[0] === "cal-minus"){
+    head[0] = "op-minus";
+  }
+  else if(tail[0] === "cal-minus"){
+    tail[0] = "op-minus";
+  }
+  
   if (head.length !== 0 && op.length === 0 && tail.length === 0) {
     // no op, tail: just number or 1+pi or 1pi
     answer = head;
@@ -479,6 +486,7 @@ let tailNum = Number(convert2String(tail));
       // TODO: polynomial +-* /^%
       // console.log("It contain eπi");
       // 1+1, 1+pi, 1*pi, log1
+      // TODO: calculate cal-...
     }
   }
   else {
@@ -487,6 +495,10 @@ let tailNum = Number(convert2String(tail));
 
   // TODO: need error handling
   // TODO: need handle calculate symbol
+  
+  if(answer[0] === "op-minus"){
+    answer[0] = "cal-minus";
+  }
   
   console.log(convert2String(arr), " = ", convert2String(answer));
   // console.log("answer is polynomial: ", isPolynomial(answer));
@@ -530,7 +542,6 @@ const onePi = (arr) => {
     if (!isFinite(product)) {
       throw new Error("overflow or underflow");
     }
-    // TODO: use convert2Symbol, sort piei, append piei
   }
   catch (e) {
     console.log("ERROR: ", e);
