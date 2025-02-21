@@ -185,7 +185,8 @@ const setResultValue = () => {
   temp = unionResult.map(item => symbol[item][0]);
   
   // resultBox.textContent = temp.join('');
-  let spaceSymbol = symbol["space"][1];
+  let spaceSymbol = symbol["space"][0];
+  
   resultBox.innerHTML = temp.join('').replace(spaceSymbol, `<span class="blink">${spaceSymbol}</span>`);
   
   resultArr2.shift();
