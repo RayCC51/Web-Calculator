@@ -16,10 +16,10 @@ Start at 2025-02-03
 - prevent exception
 - replace or block new invalid key
 - move cursor
-- i
 - = <<
 - history
 - better UI
+- i
 - sin 1/sin sin^-1 sinh
 - ...?
 

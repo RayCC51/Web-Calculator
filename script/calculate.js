@@ -61,6 +61,8 @@ const calculate = (exprArr) => {
 
 // calculate 0
 const fixSyntax = (arr) => {
+  let modified = false;
+  
   // console.log("fixing syntax...");
   // 1. fix dot without num
   for (let i = 0; i < arr.length; i++) {
@@ -69,6 +71,7 @@ const fixSyntax = (arr) => {
         console.log("fix syntax: dot")
         arr.unshift("num-zero");
         i++;
+        modified = true;
         continue;
       }
       // dot without int
@@ -76,14 +79,17 @@ const fixSyntax = (arr) => {
         console.log("fix syntax: dot")
         arr.splice(i, 0, "num-zero");
         i++;
+        modified = true;
         continue;
       }
       // dot without float
       if (i === arr.length - 1) {
         arr.push("num-zero");
+        modified = true;
       }
       if (symbol[arr[i + 1]][1] !== 0) {
         arr.splice(i + 1, 0, "num-zero");
+        modified = true;
       }
     }
   }
@@ -92,6 +98,7 @@ const fixSyntax = (arr) => {
     if (arr[i] === "op-open") {
       if (i === arr.length - 1) {
         arr.pop();
+        modified = true;
         continue;
       }
       else if (arr[i + 1] === "op-close") {
@@ -99,6 +106,7 @@ const fixSyntax = (arr) => {
         if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
           arr.splice(i - 1, 3);
           i -= 3;
+          modified = true;
         }
         // 1()2 →⁠ 1*2
         else if (i > 0 &&
@@ -106,10 +114,12 @@ const fixSyntax = (arr) => {
         ) {
           arr.splice(i, 2, "op-multiple");
           i -= 2;
+          modified = true;
         }
         else {
           arr.splice(i, 2);
           i -= 2;
+          modified = true;
         }
       }
     }
@@ -122,10 +132,12 @@ const fixSyntax = (arr) => {
           continue;
         }
         arr.shift();
+        modified = true;
         continue;
       }
       else if (i === arr.length - 1) {
-        arr.pop()
+        arr.pop();
+        modified = true;
         continue;
       }
       if (arr[i - 1] === "op-open") {
@@ -133,14 +145,18 @@ const fixSyntax = (arr) => {
           continue;
         }
         arr.splice(i, 1);
+        modified = true;
       }
       if (arr[i + 1] === "op-close") {
         arr.splice(i, 1);
+        modified = true;
       }
     }
   }
   
+  if (modified){
   console.log("syntax fixed: ", convert2String(arr));
+  }
   return arr;
 };
 
@@ -318,8 +334,21 @@ const partCalculate = (arr) => {
     return error;
   }
   
-  // let answer = ["num-pi"];
-  let answer = ["cal-open", "num-pi", "cal-close"];
+  let answer = ["num-i"];
+  // let answer = ["cal-open", "num-pi", "cal-close"];
+  
+  // pi -> Math.PI, e -> Math.E
+  arr = arr.flatMap((item) => {
+    if (item === "num-pi"){
+      return calculateAnswer(Math.PI);
+    }
+    else if (item === "num-e"){
+      return calculateAnswer(Math.E);
+    }
+    else{
+      return [item];
+    }
+  })
   
   // split number and operatir
   // const str = convert2String(arr);
@@ -420,8 +449,9 @@ let tailNum = Number(convert2String(tail));
       // ^
       if (op[0] === "op-power") {
         // power with positive
-        
-        if (head[0] !== "cal-minus") {
+        // console.log("calculate power");
+        // console.log(head, op, tail);
+        if (head[0] !== "cal-minus" && head[0] !== "op-minus") {
           // console.log("^^^");
           // let headNum = Number(convert2String(head));
           // let tailNum = Number(convert2String(tail));
@@ -429,6 +459,9 @@ let tailNum = Number(convert2String(tail));
           answer = calculateAnswer(Math.pow(headNum, tailNum));
         }
         else {
+          // do not calculate complex number
+          return ["error-complex"];
+          
           // power with negative
           // let headNum = Number(convert2String(head.slice(1)));
           let headNumPositive = headNum.slice(1);
@@ -483,10 +516,10 @@ let tailNum = Number(convert2String(tail));
       
     }
     else {
-      // TODO: polynomial +-* /^%
+      // TO DO: polynomial +-* /^%
       // console.log("It contain eπi");
       // 1+1, 1+pi, 1*pi, log1
-      // TODO: calculate cal-...
+      // TO DO: calculate cal-...
     }
   }
   else {
@@ -494,13 +527,13 @@ let tailNum = Number(convert2String(tail));
   }
 
   // TODO: need error handling
-  // TODO: need handle calculate symbol
+  // TO DO: need handle calculate symbol
   
   if(answer[0] === "op-minus"){
     answer[0] = "cal-minus";
   }
   
-  console.log(convert2String(arr), " = ", convert2String(answer));
+  // console.log(convert2String(arr), " = ", convert2String(answer));
   // console.log("answer is polynomial: ", isPolynomial(answer));
   
   return answer;
@@ -511,17 +544,20 @@ const calculateAnswer = (num) => {
   return convert2Symbol(truncate(num).toString());
 }
 
-// truncate after 5 decimal places
+// round after 10 decimal places
 const truncate = (num) => {
-  return Math.floor(num * 1e5) / 1e5;
+  return Math.round(num * 1e10) / 1e10;
 }
 
 // find 1+pi, 1pi...
 const isPolynomial = (arr) => {
+  
   if (arr.filter(item => symbol[item][1] === 1).length === 0) {
     return false;
   }
   return true;
+  
+  // return false;
 };
 
 // arrange number and pi e i
@@ -610,6 +646,8 @@ const convert2Symbol = (str) => {
 
 // calculate 1-2
 const sqrt2power = (arr) => {
+  let modified = false;
+  
   // console.log("start sqrt2power");
   let i = arr.indexOf("op-root");
   let count = 0;
@@ -632,6 +670,7 @@ const sqrt2power = (arr) => {
             // remove sqrt and add ^0.5
             arr.splice(j + 1, 0, "op-power", "num-zero", "num-dot", "num-five");
             arr.splice(i, 1);
+            modified = true;
             break;
           }
         }
@@ -643,7 +682,9 @@ const sqrt2power = (arr) => {
     
     i = arr.indexOf("op-root");
   }
+  if(modified){
   console.log("sqrt to power: ", convert2String(arr));
+  }
   return arr;
 };
 
@@ -652,7 +693,9 @@ const countParentheses = (exprArr) => {
   let countOpen = exprArr.filter(item => item === "op-open").length;
   let countClose = exprArr.filter(item => item === "op-close").length;
   let countDiff = countOpen - countClose;
+  if(countDiff !== 0){
   console.log("parentheses: open - close = ", countDiff);
+  }
   
   if (countDiff > 0) {
     for (let i = 0; i < countDiff; i++) {
