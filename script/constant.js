@@ -67,6 +67,8 @@ const symbol = {
 
 // result init
 const resultBox = document.getElementById("result");
+// history
+const historyBox = document.getElementById("history");
 
 // first digit: before key
 // second digit: after key

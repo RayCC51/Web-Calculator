@@ -42,3 +42,10 @@ function copyText(item) {
     item.textContent = original;
   }, 700);
 }
+
+// cursor stay right
+const resultDiv = document.getElementById('result');
+
+const updateScroll = () => {
+    resultDiv.scrollLeft = resultDiv.scrollWidth;
+};

@@ -15,7 +15,9 @@ const changeResultValue = (item) => {
     history = [...resultArr, ...resultArr2];
     resultArr = [];
     resultArr2 = [];
+    
     console.log("history: ", convert2String(history));
+    historyBox.innerText = convert2String(history);
     
     resultArr.push(...calculate([...history]));
   }
@@ -197,4 +199,6 @@ const setResultValue = () => {
   resultBox.innerHTML = temp.join('').replace(spaceSymbol, `<span class="blink">${spaceSymbol}</span>`);
   
   resultArr2.shift();
+  
+  updateScroll();
 };
