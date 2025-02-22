@@ -17,10 +17,11 @@ Start at 2025-02-03
 - replace or block new invalid key
 - move cursor
 - =
-- history <<
-- better UI
-- i
-- sin 1/sin sin^-1 sinh
+- history
+- better UI <<<
+- refactoring 
+- i ?
+- sin 1/sin sin^-1 sinh ?
 - ...?
 
 ### UI
