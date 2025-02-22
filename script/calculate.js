@@ -398,7 +398,6 @@ const partCalculate = (arr) => {
     }
     else if (op[0] === "op-log") {
       if (isPolynomial(tail)) {
-        // TODO: log(a+b)
         answer = ["cal-log", ...tail];
       }
       else {
@@ -416,7 +415,6 @@ const partCalculate = (arr) => {
     }
     else if (op[0] === "op-ln") {
       if (isPolynomial(tail)) {
-        // TODO: ln(a+b)
         answer = ["cal-ln", ...tail];
       }
       else {
@@ -456,7 +454,14 @@ let tailNum = Number(convert2String(tail));
           // let headNum = Number(convert2String(head));
           // let tailNum = Number(convert2String(tail));
           // answer = convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString());
-          answer = calculateAnswer(Math.pow(headNum, tailNum));
+          let powResult = Math.pow(headNum, tailNum);
+          
+          if(powResult === Infinity){
+            return ["error-over"];
+          }
+          else{
+          answer = calculateAnswer(powResult);
+          }
         }
         else {
           // do not calculate complex number
