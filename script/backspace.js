@@ -62,7 +62,13 @@ const cursorHandler = (item) => {
   // move cursor
   else if (item.id === "cursor-left") {
     item.onclick = () => {
-      if (resultArr.length > 0) {
+      // do not move error text
+      if(symbol[resultArr[0]][1] === 9){
+        resultArr.pop();
+        setResultValue();
+      }
+      
+      else if (resultArr.length > 0) {
         resultArr2.unshift(resultArr.pop());
         setResultValue();
       }
