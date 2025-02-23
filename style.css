@@ -1,26 +1,26 @@
 :root {
   --btn-size: 60px;
-  --border-radius: 0px;
+  --border-radius: 50%;
+  
   --background-color: white;
   --color: black;
-  --number: lightgray;
-  --operator: lightblue;
-  --cursor: lightyellow;
-  --equal: lightgreen;
-  --history: lightgray;
-  --click: red;
+  --color-main: #BFBF40;
+  --color-light: #D2D279;
+  --color-dark: #86862D;
+  --color-point: #7F41BF;
+  
+  --click: var(--color-light);
+  --number: var(--color);
+  --operator: var(--color-dark);
+  --cursor: var(--color-point);
+  --equal: var(--color-point);
+  --equal-back: var(--color-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #2f2c2c;
     --color: white;
-    --number: lightgray;
-    --operator: lightblue;
-    --cursor: lightyellow;
-    --eqaul: lightgreen;
-    --history: darkgray;
-    --click: red;
   }
 }
 
@@ -37,6 +37,7 @@ body {
   color: var(--color);
   width: 100%;
   margin: 0 auto;
+  margin-top: 2em;
   padding: 10px;
   box-sizing: border-box;
   border-spacing: 0;
@@ -69,10 +70,14 @@ button {
   border: none;
   border-radius: var(--border-radius);
   font-size: 1.2em;
+  background-color: var(--background-color);
 }
 
 button:active{
   background-color: var(--click);
+  height: var(--btn-size);
+  width: var(--btn-size);
+  border-radius: var(--border-radius);
 }
 
 .big-btn {
@@ -90,19 +95,21 @@ button:active{
 }
 
 .num {
-  background-color: var(--number);
+  color: var(--number);
 }
 
 .op {
-  background-color: var(--operator);
+  color: var(--operator);
 }
 
 .cursor {
-  background-color: var(--cursor);
+  color: var(--cursor);
 }
 
 #equal {
-  background-color: var(--equal) !important;
+  background-color: var(--equal-back) !important;
+  color: var(--equal)!important;
+  border-radius: 30px;
 }
 
 #result,
@@ -119,7 +126,7 @@ button:active{
   font-size: 2em;
   /* border: 1px solid var(--color); */
   /* border-radius: var(--border-radius); */
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 #history {
