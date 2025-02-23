@@ -2,6 +2,11 @@
 const calculate = (exprArr) => {
   let answer = ["error"];
   
+  // empty equal empty
+  if(exprArr.length === 0){
+    return [];
+  }
+  
   // 0. fix incorrect syntax
   exprArr = fixSyntax(exprArr);
   
