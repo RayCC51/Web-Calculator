@@ -4,10 +4,10 @@
   
   --background-color: white;
   --color: black;
-  --color-main: #BFBF40;
-  --color-light: #D2D279;
-  --color-dark: #86862D;
-  --color-point: #7F41BF;
+  --color-main: #F2E70D;
+  --color-light: #F6EE55;
+  --color-dark: #AAA209;
+  --color-point: #6627D9;
   
   --click: var(--color-light);
   --number: var(--color);
@@ -21,6 +21,7 @@
   :root {
     --background-color: #2f2c2c;
     --color: white;
+    --color-point: #9167E4;
     --click: var(--color-dark);
     --operator: var(--color-main);
   }
