@@ -26,9 +26,16 @@ resultBox.addEventListener('touchend', () => {
 });
 
 function copyText(item) {
-  let original = item.textContent;
+  let copy = item.textContent;
   
-  original = original.replace(symbol["space"][0], "");
+  // console.log(item);
+  // console.log(item.textContent);
+  
+  let original = copy.replace(symbol["space"][0], "");
+  
+  if (!copy.includes("<span class=\"blink\">_</span>")) {
+    copy = copy.replace(symbol.space[0], "<span class=\"blink\">_</span>");
+}
   
   const textarea = document.createElement('textarea');
   textarea.value = original;
@@ -38,8 +45,10 @@ function copyText(item) {
   document.body.removeChild(textarea);
   
   item.textContent = "Copy!";
+  console.log("Copy: ", original);
+  
   setTimeout(() => {
-    item.textContent = original;
+    item.innerHTML = copy;
   }, 700);
 }
 
