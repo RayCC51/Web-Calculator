@@ -1,7 +1,9 @@
 :root {
+  /* Button */
   --btn-size: 60px;
   --border-radius: 50%;
   
+  /* Color */
   --background-color: white;
   --color: black;
   --color-main: #F2E70D;
@@ -9,6 +11,7 @@
   --color-dark: #AAA209;
   --color-point: #6627D9;
   
+  /* State Color */
   --click: var(--color-light);
   --number: var(--color);
   --operator: var(--color-dark);
@@ -90,7 +93,6 @@ button:active{
   background-color: var(--click);
   height: var(--btn-size);
   width: var(--btn-size);
-  border-radius: var(--border-radius);
 }
 
 .big-btn {
@@ -137,14 +139,10 @@ button:active{
 
 #result {
   font-size: 2em;
-  /* border: 1px solid var(--color); */
-  /* border-radius: var(--border-radius); */
   margin-bottom: 20px;
 }
 
 #history {
   height: 1.3em;
   color: gray;
-  /* background-color: var(--history); */
-  /* border-radius: var(--border-radius); */
 }

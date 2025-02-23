@@ -1,3 +1,5 @@
+![screenshot](screenshot_calculator.webp)
+
 # Let's make Calculator!
 
 Making with
@@ -18,24 +20,8 @@ Start at 2025-02-03
 - move cursor
 - =
 - history
-- better UI <<<
-- refactoring 
+- better UI 
+- refactoring <<<
 - i ?
 - sin 1/sin sin^-1 sinh ?
 - ...?
-
-### UI
-|result|
-|:-:|:-:|:-:|:-:|:-:|
-|<|mod|log|pi||>|
-|c|()|ln|e|<-|
-|1|2|3|+|^|
-|4|5|6|-|root|
-|7|8|9|*|=|
-|000|0|.|/|=|
-
-- darkmode
-
-### Sample resource
-
-calculator.png: [flaticon](https://www.flaticon.com/free-icon/calculator_2374370)
