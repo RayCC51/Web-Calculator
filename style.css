@@ -1,6 +1,6 @@
 :root {
   --btn-size: 60px;
-  --border-radius: 5px;
+  --border-radius: 0px;
   --background-color: white;
   --color: black;
   --number: lightgray;
@@ -112,16 +112,19 @@ button:active{
   white-space: nowrap;
   text-align: right;
   padding-right: 5px;
+  margin: 0;
 }
 
 #result {
-  height: 1.5em;
-  border: 1px solid var(--color);
-  border-radius: var(--border-radius);
+  font-size: 2em;
+  /* border: 1px solid var(--color); */
+  /* border-radius: var(--border-radius); */
+  margin-bottom: 10px;
 }
 
 #history {
   height: 1.3em;
-  background-color: var(--history);
-  border-radius: var(--border-radius);
+  color: gray;
+  /* background-color: var(--history); */
+  /* border-radius: var(--border-radius); */
 }

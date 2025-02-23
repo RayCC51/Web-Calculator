@@ -17,7 +17,7 @@ const changeResultValue = (item) => {
     resultArr2 = [];
     
     console.log("history: ", convert2String(history));
-    historyBox.innerText = convert2String(history);
+    historyBox.innerText = convert2String(history) + " = ";
     
     resultArr.push(...calculate([...history]));
   }

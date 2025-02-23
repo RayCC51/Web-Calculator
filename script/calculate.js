@@ -456,7 +456,8 @@ let tailNum = Number(convert2String(tail));
           // answer = convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString());
           let powResult = Math.pow(headNum, tailNum);
           
-          if(powResult === Infinity){
+          // do not calculate big number 10^21 ≤
+          if(powResult === Infinity || powResult.toString().includes("e+")){
             return ["error-over"];
           }
           else{
