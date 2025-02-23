@@ -1,23 +1,81 @@
-:root{
+:root {
   --btn-size: 60px;
+  --border-radius: 5px;
+  --background-color: white;
+  --color: black;
+  --number: lightgray;
+  --operator: lightblue;
+  --cursor: lightyellow;
+  --equal: lightgreen;
+  --history: lightgray;
+  --click: red;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #2f2c2c;
+    --color: white;
+    --number: lightgray;
+    --operator: lightblue;
+    --cursor: lightyellow;
+    --eqaul: lightgreen;
+    --history: darkgray;
+    --click: red;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
 }
 
 body {
-    font-size: 15pt;
+  font-size: 15pt;
   user-select: none;
-}
-
-table{
+  background-color: var(--background-color);
+  color: var(--color);
   width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+  border-spacing: 0;
 }
 
-.btn{
+@media (min-width: 768px) {
+  body {
+    width: 80%;
+    max-width: 400px;
+    margin: auto;
+  }
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 0;
   width: var(--btn-size);
   height: var(--btn-size);
   text-align: center;
 }
 
-.big-btn{
+button {
+  width: 97%;
+  height: 97%;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.2em;
+}
+
+button:active{
+  background-color: var(--click);
+}
+
+.big-btn {
   height: calc(var(--btn-size) * 2);
 }
 
@@ -32,32 +90,38 @@ table{
 }
 
 .num {
-  background-color: lightgray;
+  background-color: var(--number);
 }
 
 .op {
-  background-color: lightblue;
+  background-color: var(--operator);
 }
 
 .cursor {
-  background-color: lightyellow;
+  background-color: var(--cursor);
 }
 
-#result{
+#equal {
+  background-color: var(--equal) !important;
+}
+
+#result,
+#history {
   width: 100%;
-  height: 1.5em;
-  border: 1px solid;
-}
-
-#history{
-  width: 100%;
-  height: 1.3em;
-  background-color: lightgray;
-}
-
-#result, #history{
   overflow-x: auto;
   white-space: nowrap;
   text-align: right;
   padding-right: 5px;
+}
+
+#result {
+  height: 1.5em;
+  border: 1px solid var(--color);
+  border-radius: var(--border-radius);
+}
+
+#history {
+  height: 1.3em;
+  background-color: var(--history);
+  border-radius: var(--border-radius);
 }
