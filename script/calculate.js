@@ -6,6 +6,10 @@ const calculate = (exprArr) => {
   if(exprArr.length === 0){
     return [];
   }
+  // error equal empty
+  else if(symbol[exprArr[0]][1] === 9){
+    return [];
+  }
   
   // 0. fix incorrect syntax
   exprArr = fixSyntax(exprArr);
