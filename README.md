@@ -1,6 +1,6 @@
-![screenshot](screenshot_calculator.webp)
+![screenshot](image/screenshot_calculator-480.webp)
 
-# Let's make Calculator!
+# Calculator!
 
 Making with
 - Android 10
