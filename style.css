@@ -145,4 +145,5 @@ button:active{
 #history {
   height: 1.3em;
   color: gray;
+  user-select: text;
 }
