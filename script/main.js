@@ -2,6 +2,13 @@ let resultArr = [];
 let resultArr2 = [];
 let history = []; // TODO
 
+(() => {
+  let historyText = sessionStorage.getItem("history");
+  if(historyText !== null){
+    historyBox.innerText = historyText;
+  }
+})();
+
 // change result value
 const changeResultValue = (item) => {
   let newKey = item.id;
@@ -18,6 +25,8 @@ const changeResultValue = (item) => {
     
     console.log("history: ", convert2String(history));
     historyBox.innerText = convert2String(history) + " = ";
+    
+    sessionStorage.setItem("history", convert2String(history) + " = ");
     
     resultArr.push(...calculate([...history]));
   }
