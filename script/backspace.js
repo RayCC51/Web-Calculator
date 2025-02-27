@@ -11,7 +11,7 @@ const popLastElement = () => {
 };
 
 const cursorHandler = (item) => {
-  // backspace
+  // backspace with long press
   if (item.id == "cursor-backspace") {
     let intervalId;
     let delay = 400;
@@ -47,30 +47,34 @@ const cursorHandler = (item) => {
     item.ontouchcancel = stopPoppingInterval;
     
   }
+  
   // ac
   else if (item.id == "cursor-ac") {
     item.onclick = () => {
-      //console.log("all clear");
       resultArr = [];
       resultArr2 = [];
       setResultValue();
     };
   }
-  // move cursor
+  
+  // move cursor left
   else if (item.id === "cursor-left") {
     item.onclick = () => {
-      // do not move error text
-      if (symbol[resultArr[0]][1] === 9) {
-        resultArr.pop();
-        setResultValue();
-      }
       
-      else if (resultArr.length > 0) {
-        resultArr2.unshift(resultArr.pop());
+      if (resultArr.length > 0) {
+        if (symbol[resultArr[0]][1] === 9) {
+          // erase error text
+          resultArr.pop();
+        }
+        else {
+          resultArr2.unshift(resultArr.pop());
+        }
         setResultValue();
       }
     };
   }
+  
+  // move cursor right
   else if (item.id === "cursor-right") {
     item.onclick = () => {
       if (resultArr2.length > 0) {
@@ -79,6 +83,7 @@ const cursorHandler = (item) => {
       }
     };
   }
+  
   else {
     console.log("wrong cursor key input: ", item.id);
   }
