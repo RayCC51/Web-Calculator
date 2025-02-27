@@ -1,5 +1,3 @@
-//FIXME: only single operator makes syntax error -> remove lonely operator
-// if single operator is cal-minus, then can not input anyt
 // calculate 0
 const fixSyntax = (arr) => {
   let modified = false;
@@ -72,21 +70,19 @@ const fixSyntax = (arr) => {
         }
         arr.shift();
         modified = true;
-        continue;
       }
       else if (i === arr.length - 1) {
         arr.pop();
         modified = true;
-        continue;
       }
-      if (arr[i - 1] === "op-open") {
+      else if (arr[i - 1] === "op-open") {
         if (arr[i] === "op-minus") {
           continue;
         }
         arr.splice(i, 1);
         modified = true;
       }
-      if (arr[i + 1] === "op-close") {
+      else if (arr[i + 1] === "op-close") {
         arr.splice(i, 1);
         modified = true;
       }
