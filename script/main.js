@@ -19,6 +19,13 @@ const changeResultValue = (item) => {
     resultArr = [];
     resultArr2 = [];
     
+    history = history.map(item => {
+    if(symbol[item][1] === "x"){
+      return symbol[item][2];
+    }
+    return item;
+  });
+    
     let historyStr = convert2String(history);
     console.log("history: ", historyStr);
     historyBox.innerText = historyStr + " = ";

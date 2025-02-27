@@ -68,6 +68,9 @@ const calculate = (exprArr) => {
   return answer;
 };
 
+
+// FIXME: only single operator makes syntax error -> remove lonely operator
+// if single operator is cal-minus, then can not input anything
 // calculate 0
 const fixSyntax = (arr) => {
   let modified = false;
