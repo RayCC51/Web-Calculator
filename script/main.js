@@ -19,13 +19,6 @@ const changeResultValue = (item) => {
     resultArr = [];
     resultArr2 = [];
     
-    history = history.map(item => {
-      if (symbol[item][1] === "x") {
-        return symbol[item][2];
-      }
-      return item;
-    });
-    
     let historyStr = convert2String(history);
     console.log("history: ", historyStr);
     historyBox.innerText = historyStr + " = ";
@@ -168,12 +161,7 @@ const parsingHiddenMultiply = (key) => {
 const setResultValue = () => {
   resultArr2.unshift("space");
   
-  resultBox.innerHTML = [...resultArr, ...resultArr2].map(item => {
-    if (symbol[item][1] === "x") {
-      return symbol[item][2];
-    }
-    return item;
-  }).map(item => symbol[item][0]).join('').replace(symbol["space"][0], `<span class="blink">${symbol["space"][0]}</span>`);
+  resultBox.innerHTML = [...resultArr, ...resultArr2].map(item => symbol[item][0]).join('').replace(symbol["space"][0], `<span class="blink">${symbol["space"][0]}</span>`);
   
   resultArr2.shift();
   

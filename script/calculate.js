@@ -70,6 +70,13 @@ const calculate = (exprArr) => {
     }
   }
   
+  answer = answer.map(item => {
+      if (symbol[item][1] === "x") {
+        return symbol[item][2];
+      }
+      return item;
+    });
+  
   return answer;
 };
 
