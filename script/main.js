@@ -1,10 +1,10 @@
 let resultArr = [];
 let resultArr2 = [];
-let history = []; 
+let history = [];
 
 (() => {
   let historyText = sessionStorage.getItem("history");
-  if(historyText !== null){
+  if (historyText !== null) {
     historyBox.innerText = historyText;
   }
 })();
@@ -20,11 +20,11 @@ const changeResultValue = (item) => {
     resultArr2 = [];
     
     history = history.map(item => {
-    if(symbol[item][1] === "x"){
-      return symbol[item][2];
-    }
-    return item;
-  });
+      if (symbol[item][1] === "x") {
+        return symbol[item][2];
+      }
+      return item;
+    });
     
     let historyStr = convert2String(history);
     console.log("history: ", historyStr);
@@ -106,10 +106,10 @@ const isNewKeyValid = (newKey) => {
   }
   
   if (resultArr.length === 0) {
-      return true;
+    return true;
   }
-  else if(isZeroDotValid(newKey)){
-     // prevent 1.1.1 and 0000
+  else if (isZeroDotValid(newKey)) {
+    // prevent 1.1.1 and 0000
     
     let previousKey = resultArr[resultArr.length - 1];
     let checkSum = symbol[previousKey][1] * 10 + symbol[newKey][1];
@@ -140,7 +140,7 @@ const isNewKeyValid = (newKey) => {
 // 1+2.34 => 2.34
 const findNumberSet = (arr) => {
   let numSet = [];
-   // start at end point
+  // start at end point
   for (let i = arr.length - 1; i >= 0; i--) {
     
     id = arr[i];
@@ -169,7 +169,7 @@ const setResultValue = () => {
   resultArr2.unshift("space");
   
   resultBox.innerHTML = [...resultArr, ...resultArr2].map(item => {
-    if(symbol[item][1] === "x"){
+    if (symbol[item][1] === "x") {
       return symbol[item][2];
     }
     return item;

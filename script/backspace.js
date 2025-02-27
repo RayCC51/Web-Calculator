@@ -1,16 +1,13 @@
-
 // backspace
 const popLastElement = () => {
-  if (resultArr.length) {
-    if (resultArr.length > 1) {
-      if (symbol[resultArr[resultArr.length - 1]][1] === 6 && symbol[resultArr[resultArr.length - 2]][1] === 5) {
-        // if remove log( ln( √(, remove both log and open. leave close  
-        resultArr.pop();
-      }
+  if (resultArr.length > 1) {
+    if (symbol[resultArr[resultArr.length - 1]][1] === 6 && symbol[resultArr[resultArr.length - 2]][1] === 5) {
+      // if remove log( ln( √(, remove both log and open. leave close  
+      resultArr.pop();
     }
-    resultArr.pop();
-    setResultValue();
   }
+  resultArr.pop();
+  setResultValue();
 };
 
 const cursorHandler = (item) => {
@@ -63,7 +60,7 @@ const cursorHandler = (item) => {
   else if (item.id === "cursor-left") {
     item.onclick = () => {
       // do not move error text
-      if(symbol[resultArr[0]][1] === 9){
+      if (symbol[resultArr[0]][1] === 9) {
         resultArr.pop();
         setResultValue();
       }
@@ -86,4 +83,3 @@ const cursorHandler = (item) => {
     console.log("wrong cursor key input: ", item.id);
   }
 };
-
