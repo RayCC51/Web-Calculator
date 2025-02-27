@@ -28,14 +28,11 @@ resultBox.addEventListener('touchend', () => {
 function copyText(item) {
   let copy = item.textContent;
   
-  // console.log(item);
-  // console.log(item.textContent);
-  
   let original = copy.replace(symbol["space"][0], "");
   
   if (!copy.includes("<span class=\"blink\">_</span>")) {
     copy = copy.replace(symbol.space[0], "<span class=\"blink\">_</span>");
-}
+  }
   
   const textarea = document.createElement('textarea');
   textarea.value = original;
@@ -52,9 +49,9 @@ function copyText(item) {
   }, 700);
 }
 
-// cursor stay right
+// whenever overflow cursor stay right end
 const resultDiv = document.getElementById('result');
 
 const updateScroll = () => {
-    resultDiv.scrollLeft = resultDiv.scrollWidth;
+  resultDiv.scrollLeft = resultDiv.scrollWidth;
 };
