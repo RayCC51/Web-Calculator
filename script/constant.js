@@ -72,8 +72,6 @@ const historyBox = document.getElementById("history");
 
 // first digit: before key
 // second digit: after key
-// const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77];
-// const hiddenMultiplyList = [5, 6, 15, 16, 70, 71, 75, 76];
 const hiddenMultiplyList = [1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
 const validList = [0, 2, 3, 4, 7, 13, 14, 17, 20, 30, 31, 35, 36, 40, 41, 45, 46, 50, 51, 54, 55, 56, 60, 61, 64, 65, 66, 67, 73, 74, 77, 1, 5, 6, 10, 11, 15, 16, 70, 71, 75, 76];
 const replaceList = [23, 24, 25, 26, 27, 33, 34, 37, 43, 44, 47]; // 09 -> 9, (+ -> (

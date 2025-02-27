@@ -1,6 +1,6 @@
 let resultArr = [];
 let resultArr2 = [];
-let history = []; // TODO
+let history = []; 
 
 (() => {
   let historyText = sessionStorage.getItem("history");
@@ -12,10 +12,6 @@ let history = []; // TODO
 // change result value
 const changeResultValue = (item) => {
   let newKey = item.id;
-  let combinationOrigin;
-  // if(resultArr.length > 0){
-  //   isNewKeyValid(newKey);
-  // }
   
   // hit equal
   if (newKey === "equal") {
@@ -23,12 +19,12 @@ const changeResultValue = (item) => {
     resultArr = [];
     resultArr2 = [];
     
-    console.log("history: ", convert2String(history));
-    historyBox.innerText = convert2String(history) + " = ";
+    let historyStr = convert2String(history);
+    console.log("history: ", historyStr);
+    historyBox.innerText = historyStr + " = ";
+    sessionStorage.setItem("history", historyStr + " = ");
     
-    sessionStorage.setItem("history", convert2String(history) + " = ");
-    
-    resultArr.push(...calculate([...history]));
+    resultArr.push(...calculate(history));
   }
   else {
     // if result show Error
@@ -38,15 +34,17 @@ const changeResultValue = (item) => {
     
     // first key input
     if (findNumberSet(resultArr).length === 0) {
-      if (newKey == "num-thousand") {
+      if (newKey === "num-thousand") {
         newKey = "num-zero";
       }
-      if (newKey == "num-dot") {
+      else if (newKey === "num-dot") {
         resultArr.push("num-zero");
       }
     }
     
-    [newKey, combinationOrigin] = parsingCombination(newKey, combinationOrigin);
+    let combinationOrigin;
+    
+    [newKey, combinationOrigin] = parsingCombination(newKey);
     
     if (isNewKeyValid(newKey)) {
       if (combinationOrigin) {
@@ -60,31 +58,25 @@ const changeResultValue = (item) => {
           pushCombination("op-parentheses");
         }
       }
-      //console.log(symbol[newKey][0]);
-    } else {
-      // resultArr.pop();
-      // resultArr.push(newKey);
+      
     }
   }
   setResultValue();
 };
 
 // parsing 000, ()
-const parsingCombination = (newKey, combinationOrigin) => {
+const parsingCombination = (newKey) => {
   
   if (symbol[newKey][1] == 8) {
-    //console.log(newKey);
     if (newKey == "num-thousand") {
-      newKey = "num-zero";
-      combinationOrigin = "num-thousand";
+      return ["num-zero", newKey];
     }
     else if (newKey == "op-parentheses") {
-      newKey = "op-open";
-      combinationOrigin = "op-parentheses";
+      return ["op-open", newKey];
     }
   }
   
-  return [newKey, combinationOrigin];
+  return [newKey, undefined];
 };
 
 const pushCombination = (combinationOrigin) => {
@@ -100,69 +92,53 @@ const pushCombination = (combinationOrigin) => {
 };
 
 
-// true will append new key, false will replace last key
+// append, replace, prevent new key
 const isNewKeyValid = (newKey) => {
   if (!symbol[newKey]) {
     console.log("invalid key: ", newKey);
   }
   
-  // +/*) can not be first key
-  if (resultArr.length == 0) {
-    if (symbol[newKey][1] != 3 && symbol[newKey][1] != 7) {
+  if (resultArr.length === 0) {
       return true;
-    }
   }
-  else {
-    // prevent 1.1.1 and 0000
-    if (newKey === "num-zero" || newKey === "num-dot") {
-      if (!isZeroDotValid(newKey)) {
-        return false;
-      }
-    }
+  else if(isZeroDotValid(newKey)){
+     // prevent 1.1.1 and 0000
     
     let previousKey = resultArr[resultArr.length - 1];
     let checkSum = symbol[previousKey][1] * 10 + symbol[newKey][1];
-    // console.log(checkSum);
-    // console.log(resultArr[resultArr.length-1]);
-    
     let numSet = findNumberSet(resultArr);
     
     // invalid, replace: 01 -> 1
     if (checkSum === 0 && numSet.length === 1 && numSet[0] === "num-zero") {
-      console.log(checkSum);
       resultArr.pop();
       return true;
     }
     
+    // valid
     else if (validList.includes(checkSum)) {
-      // if (hiddenMultiplyList.includes(checkSum)) {
-      // parsingHiddenMultiply(newKey);
-      // }
       return true;
     }
+    
     // invalid, replace: +- -> -
-    // FIXME -(-(-+ -> -(-(+
     else if (replaceList.includes(checkSum)) {
       resultArr.pop();
       return true;
     }
-    
-    else {
-      return false;
-    }
   }
+  
+  return false;
 };
 
 // find a set of numbers for dot
-// (47)log48-292 => 292
-// start at end point
+// 1+2.34 => 2.34
 const findNumberSet = (arr) => {
   let numSet = [];
+   // start at end point
   for (let i = arr.length - 1; i >= 0; i--) {
-    // console.log(resultArr[i]);
+    
     id = arr[i];
     type = symbol[id][1];
-    // console.log(id, type);
+    
     // if key is number or dot
     if (type === 0 || type === 2) {
       numSet.push(id);
@@ -172,7 +148,7 @@ const findNumberSet = (arr) => {
     }
   }
   numSet.reverse();
-  // console.log(numSet);
+  
   return numSet;
 }
 
@@ -185,29 +161,31 @@ const parsingHiddenMultiply = (key) => {
 const setResultValue = () => {
   resultArr2.unshift("space");
   
-  let unionResult = [...resultArr, ...resultArr2];
-  /*
-  for (let item of unionResult) {
-    //console.log(item);
-    temp.push(symbol[item][0]);
-  }
-  */
-  let changeCalOp = unionResult.map(item => {
+  resultBox.innerHTML = [...resultArr, ...resultArr2].map(item => {
     if(symbol[item][1] === "x"){
       return symbol[item][2];
     }
     return item;
-  });
-  
-  // let temp = unionResult.map(item => symbol[item][0]);
-  let temp = changeCalOp.map(item => symbol[item][0]);
-  
-  // resultBox.textContent = temp.join('');
-  let spaceSymbol = symbol["space"][0];
-  
-  resultBox.innerHTML = temp.join('').replace(spaceSymbol, `<span class="blink">${spaceSymbol}</span>`);
+  }).map(item => symbol[item][0]).join('').replace(symbol["space"][0], `<span class="blink">${symbol["space"][0]}</span>`);
   
   resultArr2.shift();
   
   updateScroll();
 };
+
+// prevent 1.1.1 and 000
+const isZeroDotValid = (newKey) => {
+  
+  let numSet = findNumberSet(resultArr);
+  
+  // prevent 1.1.1.
+  if (newKey === "num-dot" && numSet.includes("num-dot")) {
+    return false;
+  }
+  // prevent 00
+  if (newKey === "num-zero" && numSet.length === 1 && numSet[0] === "num-zero") {
+    return false;
+  }
+  
+  return true;
+}

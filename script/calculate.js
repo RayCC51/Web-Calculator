@@ -727,20 +727,3 @@ const countParentheses = (exprArr) => {
   
   return exprArr;
 };
-
-// prevent 1.1.1 and 000
-const isZeroDotValid = (newKey) => {
-  // console.log(newKey);
-  let numSet = findNumberSet(resultArr);
-  // console.log(numSet);
-  // prevent 1.1.1.
-  if (newKey === "num-dot" && numSet.includes("num-dot")) {
-    return false;
-  }
-  // prevent 00, allow 0.00
-  if (newKey === "num-zero" && numSet.length === 1 && numSet[0] === "num-zero" && !numSet.includes("num-dot")) {
-    return false;
-  }
-  
-  return true;
-}
