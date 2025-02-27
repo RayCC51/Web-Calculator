@@ -3,19 +3,24 @@ const calculate = (exprArr) => {
   let answer = ["error"];
   
   // empty equal empty
-  if(exprArr.length === 0){
+  if (exprArr.length === 0) {
     return [];
   }
   // error equal empty
-  else if(symbol[exprArr[0]][1] === 9){
+  else if (symbol[exprArr[0]][1] === 9) {
     return [];
   }
+  
+  // 1. count parentheses and open or close
+  exprArr = countParentheses(exprArr);
   
   // 0. fix incorrect syntax
   exprArr = fixSyntax(exprArr);
   
-  // 1. count parentheses and open or close
-  exprArr = countParentheses(exprArr);
+  // if exprArr is empty, after correcting expression
+  if(exprArr.length === 0){
+    return [];
+  }
   
   // 1-2. change sqrt to power
   exprArr = sqrt2power(exprArr);
@@ -66,110 +71,6 @@ const calculate = (exprArr) => {
   }
   
   return answer;
-};
-
-
-// FIXME: only single operator makes syntax error -> remove lonely operator
-// if single operator is cal-minus, then can not input anything
-// calculate 0
-const fixSyntax = (arr) => {
-  let modified = false;
-  
-  // console.log("fixing syntax...");
-  // 1. fix dot without num
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "num-dot") {
-      if (i === 0) {
-        console.log("fix syntax: dot")
-        arr.unshift("num-zero");
-        i++;
-        modified = true;
-        continue;
-      }
-      // dot without int
-      if (symbol[arr[i - 1]][1] !== 0) {
-        console.log("fix syntax: dot")
-        arr.splice(i, 0, "num-zero");
-        i++;
-        modified = true;
-        continue;
-      }
-      // dot without float
-      if (i === arr.length - 1) {
-        arr.push("num-zero");
-        modified = true;
-      }
-      if (symbol[arr[i + 1]][1] !== 0) {
-        arr.splice(i + 1, 0, "num-zero");
-        modified = true;
-      }
-    }
-  }
-  // 2. remove empty ()
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "op-open") {
-      if (i === arr.length - 1) {
-        arr.pop();
-        modified = true;
-        continue;
-      }
-      else if (arr[i + 1] === "op-close") {
-        // remove log() ln() sqrt()
-        if (i !== 0 && symbol[arr[i - 1]][1] === 5) {
-          arr.splice(i - 1, 3);
-          i -= 3;
-          modified = true;
-        }
-        // 1()2 →⁠ 1*2
-        else if (i > 0 &&
-          i < arr.length - 2 && [0, 1].includes(symbol[arr[i - 1]][1]) && [0, 1].includes(symbol[arr[i + 2]][1])
-        ) {
-          arr.splice(i, 2, "op-multiple");
-          i -= 2;
-          modified = true;
-        }
-        else {
-          arr.splice(i, 2);
-          i -= 2;
-          modified = true;
-        }
-      }
-    }
-  }
-  // 3. fix operator without number
-  for (let i = 0; i < arr.length; i++) {
-    if (symbol[arr[i]][1] === 3 || symbol[arr[i]][1] === 4) {
-      if (i === 0) {
-        if (arr[i] === "op-minus") {
-          continue;
-        }
-        arr.shift();
-        modified = true;
-        continue;
-      }
-      else if (i === arr.length - 1) {
-        arr.pop();
-        modified = true;
-        continue;
-      }
-      if (arr[i - 1] === "op-open") {
-        if (arr[i] === "op-minus") {
-          continue;
-        }
-        arr.splice(i, 1);
-        modified = true;
-      }
-      if (arr[i + 1] === "op-close") {
-        arr.splice(i, 1);
-        modified = true;
-      }
-    }
-  }
-  
-  if (modified){
-  console.log("syntax fixed: ", convert2String(arr));
-  }
-  return arr;
 };
 
 // calculate 2-2
@@ -351,13 +252,13 @@ const partCalculate = (arr) => {
   
   // pi -> Math.PI, e -> Math.E
   arr = arr.flatMap((item) => {
-    if (item === "num-pi"){
+    if (item === "num-pi") {
       return calculateAnswer(Math.PI);
     }
-    else if (item === "num-e"){
+    else if (item === "num-e") {
       return calculateAnswer(Math.E);
     }
-    else{
+    else {
       return [item];
     }
   })
@@ -393,10 +294,10 @@ const partCalculate = (arr) => {
     console.log("ERROR: 2 operator in 1 parentheses");
     return ["error-syntax"];
   }
-  else if(head[0] === "cal-minus"){
+  else if (head[0] === "cal-minus") {
     head[0] = "op-minus";
   }
-  else if(tail[0] === "cal-minus"){
+  else if (tail[0] === "cal-minus") {
     tail[0] = "op-minus";
   }
   
@@ -450,12 +351,12 @@ const partCalculate = (arr) => {
   else if (head.length !== 0 && op.length !== 0 && tail.length !== 0) {
     // + - * / ^ %
     let headNum = Number(convert2String(head));
-let tailNum = Number(convert2String(tail));
+    let tailNum = Number(convert2String(tail));
     
     // easy way. without pi e i
     if (!isPolynomial(head) && !isPolynomial(tail)) {
       // console.log("It does not contain e π i");
-  
+      
       // ^
       if (op[0] === "op-power") {
         // power with positive
@@ -469,11 +370,11 @@ let tailNum = Number(convert2String(tail));
           let powResult = Math.pow(headNum, tailNum);
           
           // do not calculate big number 10^21 ≤
-          if(powResult === Infinity || powResult.toString().includes("e+")){
+          if (powResult === Infinity || powResult.toString().includes("e+")) {
             return ["error-over"];
           }
-          else{
-          answer = calculateAnswer(powResult);
+          else {
+            answer = calculateAnswer(powResult);
           }
         }
         else {
@@ -485,7 +386,7 @@ let tailNum = Number(convert2String(tail));
           let headNumPositive = headNum.slice(1);
           // let tailNum = Number(convert2String(tail));
           // i^tail = e^iπtail
-          let complex = ["num-e", "cal-power", "cal-open", "num-i", "cal-multiple", "num-pi", "cal-multiple", ...tail ];
+          let complex = ["num-e", "cal-power", "cal-open", "num-i", "cal-multiple", "num-pi", "cal-multiple", ...tail];
           // answer = [...convert2Symbol(truncate(Math.pow(headNum, tailNum)).toString()), "op-multiple", ...complex];
           answer = [...calculateAnswer(Math.pow(headNumPositive, tailNum)), "op-multiple", ...complex];
           
@@ -493,23 +394,23 @@ let tailNum = Number(convert2String(tail));
       }
       // % / 
       else if (op[0] === "op-mod" || op[0] === "op-divide") {
-
-        if(tail.length === 1 && tail[0] === "num-zero")
+        
+        if (tail.length === 1 && tail[0] === "num-zero")
         {
           // zero division / mod error
           return ["error-zero"];
         }
-        else{
+        else {
           // let headNum = Number(convert2String(head));
           // let tailNum = Number(convert2String(tail));
-        
+          
           // divide
-          if (op[0] === "op-divide"){
-            answer = calculateAnswer(headNum/tailNum);
+          if (op[0] === "op-divide") {
+            answer = calculateAnswer(headNum / tailNum);
           }
           // mod
-          else{
-            answer = calculateAnswer(headNum%tailNum);
+          else {
+            answer = calculateAnswer(headNum % tailNum);
           }
           
         }
@@ -517,14 +418,14 @@ let tailNum = Number(convert2String(tail));
       }
       // +*  -
       else {
-        if(op[0] === "op-multiple"){
-          answer = calculateAnswer(headNum*tailNum);
+        if (op[0] === "op-multiple") {
+          answer = calculateAnswer(headNum * tailNum);
         }
-        else if(op[0] === "op-plus"){
-          answer = calculateAnswer(headNum+tailNum);
+        else if (op[0] === "op-plus") {
+          answer = calculateAnswer(headNum + tailNum);
         }
-        else if(op[0] === "op-minus"){
-          answer = calculateAnswer(headNum-tailNum);
+        else if (op[0] === "op-minus") {
+          answer = calculateAnswer(headNum - tailNum);
         }
         else {
           console.log("Invaild operator: ", op[0]);
@@ -543,11 +444,11 @@ let tailNum = Number(convert2String(tail));
   else {
     return ["error-syntax"];
   }
-
+  
   // TODO: need error handling
   // TO DO: need handle calculate symbol
   
-  if(answer[0] === "op-minus"){
+  if (answer[0] === "op-minus") {
     answer[0] = "cal-minus";
   }
   
@@ -576,32 +477,6 @@ const isPolynomial = (arr) => {
   return true;
   
   // return false;
-};
-
-// arrange number and pi e i
-// do not convert pi e i to number
-// FIXME: 1+pi
-const onePi = (arr) => {
-  // find pi e i
-  let piei = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (["num-pi", "num-e", "num-i"].includes(arr[i])) {
-      piei.push(arr[i]);
-      arr.splice(i, 1, "op-multiple");
-    }
-  }
-  let numbers = convert2String(arr).split("*");
-  try {
-    let product = numbers.map(Number).reduce((acc, curr) => acc * curr, 1);
-    if (!isFinite(product)) {
-      throw new Error("overflow or underflow");
-    }
-  }
-  catch (e) {
-    console.log("ERROR: ", e);
-    return ["error-over"];
-  }
-  return arr;
 };
 
 // calculate 4
@@ -700,8 +575,8 @@ const sqrt2power = (arr) => {
     
     i = arr.indexOf("op-root");
   }
-  if(modified){
-  console.log("sqrt to power: ", convert2String(arr));
+  if (modified) {
+    console.log("sqrt to power: ", convert2String(arr));
   }
   return arr;
 };
@@ -711,8 +586,8 @@ const countParentheses = (exprArr) => {
   let countOpen = exprArr.filter(item => item === "op-open").length;
   let countClose = exprArr.filter(item => item === "op-close").length;
   let countDiff = countOpen - countClose;
-  if(countDiff !== 0){
-  console.log("parentheses: open - close = ", countDiff);
+  if (countDiff !== 0) {
+    console.log("parentheses: open - close = ", countDiff);
   }
   
   if (countDiff > 0) {
