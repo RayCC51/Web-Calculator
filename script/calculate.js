@@ -18,7 +18,7 @@ const calculate = (exprArr) => {
   exprArr = fixSyntax(exprArr);
   
   // if exprArr is empty, after correcting expression
-  if(exprArr.length === 0){
+  if (exprArr.length === 0) {
     return [];
   }
   
@@ -63,11 +63,11 @@ const calculate = (exprArr) => {
   
   // change calcularting operator to normal operator
   answer = answer.map(item => {
-      if (symbol[item][1] === "x") {
-        return symbol[item][2];
-      }
-      return item;
-    });
+    if (symbol[item][1] === "x") {
+      return symbol[item][2];
+    }
+    return item;
+  });
   
   return answer;
 };
@@ -99,11 +99,11 @@ const addParentheses = (arr, opArr, stopPointArr) => {
     if (opArr.includes(arr[i])) {
       back = findClosest(arr, i, stopPointArr, 1);
       
-      if(opArr.includes("op-log") || opArr.includes("op-ln")){
+      if (opArr.includes("op-log") || opArr.includes("op-ln")) {
         front = i - 1;
       }
-      else{
-      front = findClosest(arr, i, stopPointArr, -1);
+      else {
+        front = findClosest(arr, i, stopPointArr, -1);
       }
       
       arr.splice(back, 0, "op-close");
@@ -164,7 +164,7 @@ const findClosest = (arr, pivot, stopPointArr, direction) => {
   
   // if there no match
   if (i === -1 && direction === 1) {
-      i = arr.length;
+    i = arr.length;
   }
   
   return i;
@@ -184,7 +184,7 @@ const findHiddenMultiply = (arr) => {
     }
   }
   
-  if(modified){
+  if (modified) {
     console.log("Add hidden multiply: ", convert2String(arr));
   }
   
@@ -324,19 +324,19 @@ const countParentheses = (exprArr) => {
   
   if (countDiff !== 0) {
     console.log("parentheses: open - close = ", countDiff);
-  
-  if (countDiff > 0) {
-    for (let i = 0; i < countDiff; i++) {
-      exprArr.push("op-close");
-    }
+    
+    if (countDiff > 0) {
+      for (let i = 0; i < countDiff; i++) {
+        exprArr.push("op-close");
+      }
       console.log("Add close parentheses");
-  }
-  else if (countDiff < 0) {
-    for (let i = 0; i > countDiff; i--) {
-      exprArr.unshift("op-open");
     }
+    else if (countDiff < 0) {
+      for (let i = 0; i > countDiff; i--) {
+        exprArr.unshift("op-open");
+      }
       console.log("Add open parentheses");
-  }
+    }
   }
   
   return exprArr;
