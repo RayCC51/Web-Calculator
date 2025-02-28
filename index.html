@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400" rel="stylesheet">
   
   <style>
+  :root{--btn-size:60px;--border-radius:50%;--background-color:white;--color:black;--color-main:#F2E70D;--color-light:#F6EE55;--color-dark:#AAA209;--color-point:#6627D9;--click:var(--color-light);--number:var(--color);--operator:var(--color-dark);--cursor:var(--color-point);--equal:var(--color);--equal-back:var(--click)}@media (prefers-color-scheme:dark){:root{--background-color:#2f2c2c;--color:white;--color-point:#9167E4;--click:var(--color-dark);--operator:var(--color-main);--equal:var(--background-color)}#github{content:url(icon/github-mark-white.svg)}}*{box-sizing:border-box;justify-content:center;align-items:center;font-family:"Roboto",sans-serif;font-weight:400}body{font-size:15pt;user-select:none;background-color:var(--background-color);color:var(--color);width:100%;margin:0 auto;margin-top:0em;padding:10px;box-sizing:border-box;border-spacing:0}@media (min-width:768px){body{width:80%;max-width:400px;margin:auto}}#github{width:1em;height:1em}table{width:100%;border-collapse:collapse}td{padding:0;width:var(--btn-size);height:var(--btn-size);text-align:center}button{width:97%;height:97%;border:none;border-radius:var(--border-radius);font-size:1.2em;background-color:var(--background-color)}button:active{background-color:var(--click);height:var(--btn-size);width:var(--btn-size)}.big-btn{height:calc(var(--btn-size) * 2)}.blink{animation:blink-animation 1s steps(3,start) infinite}@keyframes blink-animation{to{visibility:hidden}}.num{color:var(--number)}.op{color:var(--operator)}.cursor{color:var(--cursor)}#equal{background-color:var(--equal-back)!important;color:var(--equal)!important;border-radius:30px}#result,#history{width:100%;overflow-x:auto;white-space:nowrap;text-align:right;padding-right:5px;margin:0}#result{font-size:2em;margin-bottom:20px}#history{height:1.3em;color:gray;user-select:text}
   </style>
 </head>
 
@@ -156,6 +157,7 @@
   <script src="script/backspace.js"></script>
   <script src="script/click.js"> </script>
   <script src="script/fix-syntax.js"></script>
+  <script src="script/part-calculate.js"></script>
   <script src="script/calculate.js"></script>
   <script src="script/main.js"></script>
 </body>
