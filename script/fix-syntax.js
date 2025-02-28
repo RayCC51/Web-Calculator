@@ -6,14 +6,14 @@ const fixSyntax = (arr) => {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === "num-dot") {
       if (i === 0) {
-        console.log("fix syntax: dot")
+        console.log("Fix syntax: dot")
         arr.unshift("num-zero");
         i++;
         modified = true;
       }
       // dot without int
       else if (symbol[arr[i - 1]][1] !== 0) {
-        console.log("fix syntax: dot")
+        console.log("Fix syntax: dot")
         arr.splice(i, 0, "num-zero");
         i++;
         modified = true;
@@ -90,7 +90,7 @@ const fixSyntax = (arr) => {
   }
   
   if (modified) {
-    console.log("syntax fixed: ", convert2String(arr));
+    console.log("Syntax fixed: ", convert2String(arr));
   }
   return arr;
 };

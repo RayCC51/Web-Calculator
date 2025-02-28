@@ -20,7 +20,8 @@ const changeResultValue = (item) => {
     resultArr2 = [];
     
     let historyStr = convert2String(history);
-    console.log("history: ", historyStr);
+    console.log("####################");
+    console.log("History: ", historyStr);
     historyBox.innerText = historyStr + " = ";
     sessionStorage.setItem("history", historyStr + " = ");
     

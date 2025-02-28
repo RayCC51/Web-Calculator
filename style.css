@@ -16,7 +16,7 @@
   --number: var(--color);
   --operator: var(--color-dark);
   --cursor: var(--color-point);
-  --equal: var(--background-color);
+  --equal: var(--color);
   --equal-back: var(--click);
 }
 
@@ -27,6 +27,7 @@
     --color-point: #9167E4;
     --click: var(--color-dark);
     --operator: var(--color-main);
+    --equal: var(--background-color);
   }
   #github{
         content: url('icon/github-mark-white.svg');
