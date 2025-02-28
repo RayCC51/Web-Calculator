@@ -1,9 +1,17 @@
 :root {
-  /* Button */
-  --btn-size: 60px;
-  --border-radius: 50%;
+  --font-size: 1.5em;
+  --body-padding: 10px;
+  --result-font-size: 2.5em;
+  --result-margin-bottom: 20px;
+  --result-padding-right: 5px;
+  --history-size: 1.3em;
+  --icon-size: 1em;
   
-  /* Color */
+  --btn-size: 60px;
+  --btn-font-size: 1.2em;
+  --border-radius: 50%;
+  --equal-border-radius: 30px;
+  
   --background-color: white;
   --color: black;
   --color-main: #F2E70D;
@@ -11,7 +19,6 @@
   --color-dark: #AAA209;
   --color-point: #6627D9;
   
-  /* State Color */
   --click: var(--color-light);
   --number: var(--color);
   --operator: var(--color-dark);
@@ -34,38 +41,65 @@
     }
 }
 
+@media (min-width: 768px) {
+  :root {
+    --font-size: 2em;
+    --body-padding: 15px;
+    --result-font-size: 3em;
+    --result-margin-bottom: 30px;
+    --result-padding-right: 10px;
+    --history-size: 1.5em;
+    --icon-size: 1.2em;
+    
+    --btn-size: 80px;
+    --btn-font-size: 1.5em;
+    --border-radius: 60%;
+    --equal-border-radius: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --font-size: 2.5em;
+    --body-padding: 20px;
+    --result-font-size: 3.5em;
+    --result-margin-bottom: 40px;
+    --result-padding-right: 15px;
+    --history-size: 1.8em;
+    --icon-size: 1.5em;
+    
+    --btn-size: 100px;
+    --btn-font-size: 1.8em;
+    --border-radius: 70%;
+    --equal-border-radius: 50px;
+  }
+}
+
+
 * {
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  font-family: sans-serif;
   font-weight: 400;
 }
 
 body {
-  font-size: 15pt;
+  font-size: var(--font-size);
   user-select: none;
   background-color: var(--background-color);
   color: var(--color);
   width: 100%;
   margin: 0 auto;
   margin-top: 0em;
-  padding: 10px;
+  padding: var(--body-padding);
   box-sizing: border-box;
   border-spacing: 0;
 }
 
-@media (min-width: 768px) {
-  body {
-    width: 80%;
-    max-width: 400px;
-    margin: auto;
-  }
-}
-
 #github{
-  width: 1em;
-  height: 1em;
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
 
@@ -86,7 +120,7 @@ button {
   height: 97%;
   border: none;
   border-radius: var(--border-radius);
-  font-size: 1.2em;
+  font-size: var(--btn-font-size);
   background-color: var(--background-color);
 }
 
@@ -125,7 +159,7 @@ button:active{
 #equal {
   background-color: var(--equal-back) !important;
   color: var(--equal)!important;
-  border-radius: 30px;
+  border-radius: var(--equal-border-radius);
 }
 
 #result,
@@ -134,17 +168,17 @@ button:active{
   overflow-x: auto;
   white-space: nowrap;
   text-align: right;
-  padding-right: 5px;
+  padding-right: var(--result-padding-right);
   margin: 0;
 }
 
 #result {
-  font-size: 2em;
-  margin-bottom: 20px;
+  font-size: var(--result-font-size);
+  margin-bottom: var(--result-margin-bottom);
 }
 
 #history {
-  height: 1.3em;
+  height: var(--history-size);
   color: gray;
   user-select: text;
 }
